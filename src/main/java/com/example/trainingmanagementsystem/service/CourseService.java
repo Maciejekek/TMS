@@ -76,6 +76,7 @@ public class CourseService {
                 .stream()
                 .filter(classBlock -> classBlock.getId().equals(blockId))
                 .findFirst();
+
         cos.ifPresent(tmp -> course.getClassBlockSet().remove(tmp));
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -90,7 +91,8 @@ public class CourseService {
                 .stream()
                 .filter(person -> person.getId().equals(personId))
                 .findFirst();
-        cos.ifPresent(tmp -> course.getClassBlockSet().remove(tmp));
+
+        cos.ifPresent(tmp -> course.getPersonSet().remove(tmp));
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
