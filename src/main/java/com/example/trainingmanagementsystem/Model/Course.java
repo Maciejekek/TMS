@@ -7,6 +7,7 @@ import lombok.Setter;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Getter
@@ -19,10 +20,11 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
-    @Column(name = "course_name")
     String name;
 
-//    List<ClassBlock> classBlockList;
-//
-//    List<User> userList;
+    @OneToMany
+    Set<ClassBlock> classBlockSet;
+
+    @OneToMany
+    Set<Person> personSet;
 }

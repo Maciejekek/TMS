@@ -19,7 +19,7 @@ public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long ID;
+    Long Id;
 
     String login;
 
