@@ -5,9 +5,11 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Entity;
 import java.util.Date;
 import java.util.List;
 
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
@@ -20,7 +22,7 @@ public class Classes {
 
     Date date;
 
-    List<Notification> notificationList;
-
-    List<User> userList;
+//    List<Notification> notificationList;
+//
+//    List<User> userList;
 }

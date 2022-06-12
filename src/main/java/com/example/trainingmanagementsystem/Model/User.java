@@ -5,14 +5,18 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.List;
 
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class User {
 
+    @Id
     Long ID;
 
     String login;
@@ -27,7 +31,7 @@ public class User {
 
     Boolean isActive;
 
-    List<Course> courseList;
-
-    List<UserNotification> notifications;
+//    List<Course> courseList;
+//
+//    List<UserNotification> notifications;
 }

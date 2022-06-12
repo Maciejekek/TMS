@@ -5,18 +5,24 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.persistence.Entity;
+import javax.persistence.Id;
 import java.util.List;
 
+@Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ClassBlock {
+
+    @Id
     Long id;
 
     String name;
 
-    List<Classes> classesList;
-
-    List<User> userList;
+//
+//    List<Classes> classesList;
+//
+//    List<User> userList;
 }
