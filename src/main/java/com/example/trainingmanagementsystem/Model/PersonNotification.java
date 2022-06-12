@@ -15,7 +15,7 @@ import javax.persistence.Id;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class UserNotification {
+public class PersonNotification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -5,10 +5,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity
@@ -22,9 +19,10 @@ public class Course {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id;
 
+    @Column(name = "course_name")
     String name;
 
-    List<ClassBlock> classBlockList;
-
-    List<User> userList;
+//    List<ClassBlock> classBlockList;
+//
+//    List<User> userList;
 }
