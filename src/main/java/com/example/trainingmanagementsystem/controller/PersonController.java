@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/*
-todo dodawanie/usuwanie/edytowanie
- */
+
 @RestController
 @RequestMapping(value = "/persons", produces = {MediaType.APPLICATION_JSON_VALUE})
 
@@ -50,7 +48,7 @@ public class PersonController {
     @PutMapping
     public ResponseEntity<Person> putEditPersonById(@RequestBody Person newPerson) {
         Optional<Person> optionalPerson = personList.stream()
-                .filter(person -> person.getID() == newPerson.getID())
+                .filter(person -> person.getId() == newPerson.getId())
                 .findFirst();
 
         if (optionalPerson.isPresent()) {
@@ -65,7 +63,7 @@ public class PersonController {
     @DeleteMapping("/{id}")
     public ResponseEntity<Person> deletePersonById(@PathVariable Long id) {
         Optional<Person> personOptional = personList.stream()
-                .filter(person -> person.getID() == id)
+                .filter(person -> person.getId() == id)
                 .findFirst();
 
         if (personOptional.isPresent()) {
