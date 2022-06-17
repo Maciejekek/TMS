@@ -19,21 +19,20 @@ public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long Id;
+    private Long Id;
 
-    String login;
+    private String login;
 
-    String password;
+    private String password;
 
-    String type;
+    private String type;
 
-    String name;
+    private String name;
 
-    String lastName;
+    private String lastName;
 
-    Boolean isActive;
+    private Boolean isActive;
 
 //    List<Course> courseList;
-//
-//    List<UserNotification> notifications;
+
 }
