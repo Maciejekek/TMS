@@ -19,9 +19,9 @@ public class PersonNotification {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    Long userId;
+    private Long userId;
 
 //    Boolean isRead;
 //

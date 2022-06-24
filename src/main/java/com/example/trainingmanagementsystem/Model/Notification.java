@@ -18,10 +18,10 @@ public class Notification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    Long id;
-//    Classes classes;
-    @Column(name = "notification_date")
-    Date date;
-
-    String description;
+    private Long id;
+    //    Classes classes;
+    @Column(name = "NOTIFICATION_DATE")
+    private Date date;
+    @Column(name = "DESCRIPTION")
+    private String description;
 }

@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Getter
@@ -17,13 +17,25 @@ public class ClassBlock {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
-    @Column(name = "class_block_name")
-    String name;
+    @Column(name = "CLASS_BLOCK_NAME")
+    private String name;
 
-//
-//    List<Classes> classesList;
-//
-//    List<User> userList;
+//    @OneToMany
+//    private List<Classes> classesList;
+
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        ClassBlock that = (ClassBlock) o;
+        return Objects.equals(id, that.id) && Objects.equals(name, that.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
+    }
 }

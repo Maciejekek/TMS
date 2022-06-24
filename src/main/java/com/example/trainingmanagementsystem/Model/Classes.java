@@ -4,13 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
-import java.util.List;
 
 @Entity
 @Getter
@@ -21,13 +18,11 @@ public class Classes {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
+    @Column(name = "TOPIC")
+    private String topic;
+    @Column(name = "DATE")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd")
+    private Date date;
 
-    String topic;
-
-    Date date;
-
-//    List<Notification> notificationList;
-//
-//    List<User> userList;
 }

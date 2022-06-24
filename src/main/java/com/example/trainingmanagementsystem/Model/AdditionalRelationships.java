@@ -19,5 +19,5 @@ public class AdditionalRelationships {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 }
