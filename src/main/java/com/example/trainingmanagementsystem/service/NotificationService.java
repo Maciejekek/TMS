@@ -13,18 +13,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@AllArgsConstructor
 @Service
 @AllArgsConstructor
 public class NotificationService {
 
 
-
-
-
     PersonRepository personRepository;
-
-
-
+  
     NotificationRepository notificationRepository;
 
     public List<Notification> getAll(Long userId) {
