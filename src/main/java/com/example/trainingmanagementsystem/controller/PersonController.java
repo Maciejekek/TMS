@@ -22,12 +22,6 @@ public class PersonController {
 
     public PersonController() {
         this.personList = new ArrayList<>();
-//        personList.add(new Person(1L, "person1", "password1", "admin", "Halina", "Kowalska", true));
-//        personList.add(new Person(2L, "person2", "password2", "student", "Kamil", "Boczek", true));
-//        personList.add(new Person(3L, "person3", "password3", "student", "Andżelika", "Kiepska", true));
-//        personList.add(new Person(4L, "person4", "password4", "teacher", "Robert", "Rozrabiaka", true));
-//        personList.add(new Person(5L, "person5", "password5", "teacher", "Marta", "Szalona", true));
-//        personList.add(new Person(6L, "person6", "password6", "student", "Bożydar", "Cudowny", true));
     }
 
     @GetMapping("/allPersons")

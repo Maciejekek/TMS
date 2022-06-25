@@ -22,6 +22,6 @@ public class Classes {
     @Column(name = "TOPIC")
     private String topic;
     @Column(name = "DATE")
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd")
     private Date date;
 }
