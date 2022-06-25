@@ -19,9 +19,9 @@ public class Notification {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     Long id;
-//    Classes classes;
+
     @Column(name = "notification_date")
     Date date;
-
+    @Column(name = "DESCRIPTION")
     String description;
 }

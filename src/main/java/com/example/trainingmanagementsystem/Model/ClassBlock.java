@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Getter
@@ -17,12 +16,12 @@ public class ClassBlock {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Long id;
+    private Long id;
 
     @Column(name = "class_block_name")
-    String name;
+    private String name;
 
-//
+
 //    List<Classes> classesList;
 //
 //    List<User> userList;
