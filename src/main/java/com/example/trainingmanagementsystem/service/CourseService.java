@@ -5,35 +5,35 @@ import com.example.trainingmanagementsystem.Model.Course;
 import com.example.trainingmanagementsystem.Model.Person;
 import com.example.trainingmanagementsystem.exceptions.ResourceNotFoundException;
 import com.example.trainingmanagementsystem.repository.CourseRepository;
+import com.example.trainingmanagementsystem.repository.PersonRepository;
+import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import java.util.List;
 
+@AllArgsConstructor
 @Service
 public class CourseService {
-    public CourseService(CourseRepository courseRepository) {
-        this.courseRepository = courseRepository;
-    }
+
 
     CourseRepository courseRepository;
+
+    PersonRepository personRepository;
 
     public List<Course> findAll(){
         return courseRepository.findAll();
     }
 
-    public ResponseEntity<Course> getCourseById(@PathVariable Long id){
-        Course course = courseRepository
+    public List<Course> getCourseByPersonId(Long id){
+        return personRepository
                 .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
-
-        return ResponseEntity.ok(course);
+                .orElseThrow(() -> new ResourceNotFoundException("User with id:" + id + "not exist"))
+                .getCourseList();
     }
 
-    public ResponseEntity<Course> addBlockInToCourse(@PathVariable Long id, @RequestBody ClassBlock classBlock){
+    public ResponseEntity<Course> addBlockInToCourse(Long id, ClassBlock classBlock){
         Course updateCourse = courseRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
@@ -45,7 +45,7 @@ public class CourseService {
         return ResponseEntity.ok(updateCourse);
     }
 
-    public ResponseEntity<Course> addPersonInToCourse(@PathVariable Long id, @RequestBody Person person){
+    public ResponseEntity<Course> addPersonInToCourse(Long id, Person person){
         Course updateCourse = courseRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
@@ -57,7 +57,7 @@ public class CourseService {
         return ResponseEntity.ok(updateCourse);
     }
 
-    public ResponseEntity<HttpStatus> deleteCourse(@PathVariable Long id){
+    public ResponseEntity<HttpStatus> deleteCourse(Long id){
         Course course = courseRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
@@ -67,7 +67,7 @@ public class CourseService {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity<HttpStatus> deleteBlockFromCourse(@PathVariable Long id, @RequestBody Long blockId){
+    public ResponseEntity<HttpStatus> deleteBlockFromCourse(Long id, Long blockId){
         Course course = courseRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
@@ -82,7 +82,7 @@ public class CourseService {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity<HttpStatus> deletePersonFromCourse(@PathVariable Long id, @RequestBody Long personId){
+    public ResponseEntity<HttpStatus> deletePersonFromCourse(Long id, Long personId){
         Course course = courseRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
@@ -98,5 +98,15 @@ public class CourseService {
     }
 
 
+    public ResponseEntity<Course> editCourse(Long id, Course course) {
+        Course updateCourse = courseRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
 
+        updateCourse.setName(course.getName());
+
+        courseRepository.save(updateCourse);
+
+        return ResponseEntity.ok(updateCourse);
+    }
 }
