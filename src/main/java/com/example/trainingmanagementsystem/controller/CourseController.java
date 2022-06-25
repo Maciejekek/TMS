@@ -2,9 +2,9 @@ package com.example.trainingmanagementsystem.controller;
 
 import com.example.trainingmanagementsystem.Model.ClassBlock;
 import com.example.trainingmanagementsystem.Model.Course;
+import com.example.trainingmanagementsystem.Model.Person;
 import com.example.trainingmanagementsystem.service.CourseService;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -39,6 +39,15 @@ public class CourseController {
         return service.addBlockInToCourse(id, classBlock);
     }
 
+    @PutMapping("/course/addpersonblock?course={id}")
+    public ResponseEntity<Course> addPerson(@PathVariable Long id, @RequestBody Person person){
+        return service.addPersonInToCourse(id, person);
+    }
 
+    @PutMapping("course/edit?course={id}")
+    public ResponseEntity<Course> editCourse(@PathVariable Long id, @RequestBody Course course){
+        return service.editCourse(id, course);
+    }
+    ;
 
 }

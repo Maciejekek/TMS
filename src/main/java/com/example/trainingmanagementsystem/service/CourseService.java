@@ -98,5 +98,15 @@ public class CourseService {
     }
 
 
+    public ResponseEntity<Course> editCourse(Long id, Course course) {
+        Course updateCourse = courseRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
 
+        updateCourse.setName(course.getName());
+
+        courseRepository.save(updateCourse);
+
+        return ResponseEntity.ok(updateCourse);
+    }
 }
