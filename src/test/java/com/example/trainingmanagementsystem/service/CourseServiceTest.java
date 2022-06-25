@@ -25,7 +25,7 @@ class CourseServiceTest {
 
     @Test
     void getCourseById() {
-        courseService.getCourseById(COURSE.getId());
+        courseService.getCourseByPersonId(COURSE.getId());
     }
 
     @Test

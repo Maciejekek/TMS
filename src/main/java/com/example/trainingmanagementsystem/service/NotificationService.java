@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
-@AllArgsConstructor
 public class NotificationService {
 
 
