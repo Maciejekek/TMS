@@ -32,5 +32,4 @@ public class Person {
     private String lastName;
     @Column(name = "IS_ACTIVE")
     private Boolean isActive;
-
 }

@@ -24,7 +24,7 @@ public class PersonController {
         this.personList = new ArrayList<>();
     }
 
-    @GetMapping
+    @GetMapping("/allPersons")
     public ResponseEntity<List<Person>> getAllPersons() {
         return new ResponseEntity<>(personList, HttpStatus.OK);
     }
@@ -39,7 +39,7 @@ public class PersonController {
         }
     }
 
-    @PutMapping
+    @PutMapping()
     public ResponseEntity<Person> putEditPersonById(@RequestBody Person newPerson) {
         Optional<Person> optionalPerson = personList.stream()
                 .filter(person -> person.getId() == newPerson.getId())

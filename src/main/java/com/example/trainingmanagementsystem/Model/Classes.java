@@ -24,5 +24,4 @@ public class Classes {
     @Column(name = "DATE")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd")
     private Date date;
-
 }
