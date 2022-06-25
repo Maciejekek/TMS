@@ -20,6 +20,8 @@ public class Notification {
     private Long id;
     @Column(name = "NOTIFICATION_DATE")
     private Date date;
+    @Column(name = "CLASS_NAME")
+    private String className;
     @Column(name = "DESCRIPTION")
     private String description;
 
