@@ -2,10 +2,9 @@ package com.example.trainingmanagementsystem.controller;
 
 import com.example.trainingmanagementsystem.Model.Notification;
 import com.example.trainingmanagementsystem.service.NotificationService;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,8 +18,22 @@ public class NotificationController {
     NotificationService notificationService;
 
     @GetMapping("/notifications/{id}")
-    public List<Notification> getNotifications(@RequestBody Long id){
+    public List<Notification> getNotifications(@RequestBody Long id) {
         return notificationService.getAll(id);
     }
 
+    @PostMapping("/notifications")
+    public Notification createNotification(@RequestBody Notification notification) {
+        return notificationService.save(notification);
+    }
+
+    @PutMapping("/notifications/{id}")
+    public ResponseEntity<Notification> updateNotification(@PathVariable Long id, @RequestBody Notification notification){
+        return notificationService.update(id, notification);
+    }
+
+    @DeleteMapping("/notifications/{id}")
+    public ResponseEntity<HttpStatus> deleteNotification(@PathVariable Long id){
+        return notificationService.delete(id);
+    }
 }
