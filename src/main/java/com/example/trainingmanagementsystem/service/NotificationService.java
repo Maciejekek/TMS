@@ -9,7 +9,6 @@ import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.DeleteMapping;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,25 +31,6 @@ public class NotificationService {
                 .map(Course::getNotificationsList)
                 .flatMap(List::stream)
                 .collect(Collectors.toList());
-
-        /*
-        Person person = personRepository
-                .findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User with id:" + userId + " not exist"));
-
-        var courseList = person.getCourseList();
-
-        List<List<Notification>> notificationList = new ArrayList<>();
-
-        courseList.forEach(
-                course -> notificationList.add(course.getNotificationsList())
-        );
-
-        var list = notificationList.stream()
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
-
-        return list;*/
     }
 
 

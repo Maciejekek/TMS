@@ -4,16 +4,11 @@ import com.example.trainingmanagementsystem.Model.ClassBlock;
 import com.example.trainingmanagementsystem.Model.Course;
 import com.example.trainingmanagementsystem.Model.Person;
 import com.example.trainingmanagementsystem.service.CourseService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-
-//todo dodawanie usuwanie edycja kursu(admin)
-
-//todo wyswietla listę blokow danego course
-
-//todo dodawanie/usuwanie/edytowanie listy course
 
 @RestController
 public class CourseController {
@@ -48,6 +43,20 @@ public class CourseController {
     public ResponseEntity<Course> editCourse(@PathVariable Long id, @RequestBody Course course){
         return service.editCourse(id, course);
     }
-    ;
+
+    @DeleteMapping("/course/deletepersonfrom?course={id}")
+    public ResponseEntity<HttpStatus> deletePersonFromCourse(@PathVariable Long id, @RequestBody Long personId){
+        return service.deletePersonFromCourse(id, personId);
+    }
+
+    @DeleteMapping("/course/deleteblockfrom?course={id}")
+    public ResponseEntity<HttpStatus> deleteBlockFromCourse(@PathVariable Long id, @RequestBody Long blockId){
+        return service.deleteBlockFromCourse(id, blockId);
+    }
+
+    @DeleteMapping("/course/{id}")
+    public ResponseEntity<HttpStatus> deleteCourse(@PathVariable Long id){
+        return service.deleteCourse(id);
+    }
 
 }

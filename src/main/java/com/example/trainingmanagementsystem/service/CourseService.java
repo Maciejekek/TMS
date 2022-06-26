@@ -87,12 +87,12 @@ public class CourseService {
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
 
-        var cos = course.getPersonSet()
+        var optionalPerson = course.getPersonSet()
                 .stream()
                 .filter(person -> person.getId().equals(personId))
                 .findFirst();
 
-        cos.ifPresent(tmp -> course.getPersonSet().remove(tmp));
+        optionalPerson.ifPresent(tmp -> course.getPersonSet().remove(tmp));
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
