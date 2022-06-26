@@ -29,5 +29,5 @@ public class Course {
     private List<Person> personList = new LinkedList<>();
 
     @OneToMany
-    private List<Notification> notificationsList;
+    private List<Notification> notificationsList = new LinkedList<>();
 }
