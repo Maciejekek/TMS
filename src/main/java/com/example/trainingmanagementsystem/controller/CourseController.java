@@ -49,13 +49,13 @@ public class CourseController {
         return service.editCourse(id, course);
     }
 
-    @DeleteMapping("/course/deletepersonfrom?course={id}")
-    public ResponseEntity<HttpStatus> deletePersonFromCourse(@PathVariable Long id, @RequestBody Long personId){
+    @DeleteMapping("/course/deletepersonfrom")
+    public ResponseEntity<HttpStatus> deletePersonFromCourse(@RequestParam("course") Long id, @RequestParam("personId") Long personId){
         return service.deletePersonFromCourse(id, personId);
     }
 
-    @DeleteMapping("/course/deleteblockfrom?course={id}")
-    public ResponseEntity<HttpStatus> deleteBlockFromCourse(@PathVariable Long id, @RequestBody Long blockId){
+    @DeleteMapping("/course/deleteblockfrom")
+    public ResponseEntity<HttpStatus> deleteBlockFromCourse(@RequestParam("course") Long id, @RequestParam("blockId") Long blockId){
         return service.deleteBlockFromCourse(id, blockId);
     }
 
