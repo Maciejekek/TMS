@@ -19,6 +19,11 @@ public class CourseController {
 
     CourseService service;
 
+    @PostMapping
+    public Course addCourse(@RequestBody Course course){
+        return service.addCourse(course);
+    }
+
     @GetMapping("/course")
     public List<Course> getAllCourse(){
         return service.findAll();

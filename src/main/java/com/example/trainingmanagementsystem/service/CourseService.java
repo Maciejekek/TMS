@@ -35,7 +35,7 @@ public class CourseService {
         Course updateCourse = courseRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
-        updateCourse.getClassBlockSet().add(classBlock);
+        updateCourse.getClassBlockList().add(classBlock);
         courseRepository.save(updateCourse);
         return ResponseEntity.ok(updateCourse);
     }
@@ -44,7 +44,7 @@ public class CourseService {
         Course updateCourse = courseRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
-        updateCourse.getPersonSet().add(person);
+        updateCourse.getPersonList().add(person);
         courseRepository.save(updateCourse);
         return ResponseEntity.ok(updateCourse);
     }
@@ -62,12 +62,12 @@ public class CourseService {
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
 
-        var optionalClassBlock = course.getClassBlockSet()
+        var optionalClassBlock = course.getClassBlockList()
                 .stream()
                 .filter(classBlock -> classBlock.getId().equals(blockId))
                 .findFirst();
 
-        optionalClassBlock.ifPresent(tmp -> course.getClassBlockSet().remove(tmp));
+        optionalClassBlock.ifPresent(tmp -> course.getClassBlockList().remove(tmp));
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -77,12 +77,12 @@ public class CourseService {
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
 
-        var optionalPerson = course.getPersonSet()
+        var optionalPerson = course.getPersonList()
                 .stream()
                 .filter(person -> person.getId().equals(personId))
                 .findFirst();
 
-        optionalPerson.ifPresent(person -> course.getPersonSet().remove(person));
+        optionalPerson.ifPresent(person -> course.getPersonList().remove(person));
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -98,5 +98,9 @@ public class CourseService {
         courseRepository.save(updateCourse);
 
         return ResponseEntity.ok(updateCourse);
+    }
+
+    public Course addCourse(Course course) {
+        return courseRepository.save(course);
     }
 }

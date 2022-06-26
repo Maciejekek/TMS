@@ -3,6 +3,7 @@ package com.example.trainingmanagementsystem.controller;
 //todo dodawanie/usuwanie/edytowanie listy bloków - done :) great connect Service and Controller
 
 import com.example.trainingmanagementsystem.Model.ClassBlock;
+import com.example.trainingmanagementsystem.Model.Classes;
 import com.example.trainingmanagementsystem.service.ClassBlockService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -52,7 +53,11 @@ public class ClassBlockController {
     @DeleteMapping("/deleteClassBlock/{id}")
     public void deleteClassBlock(@PathVariable Long id) {
         classBlockService.deleteClassBlock(id);
+    }
 
+    @PutMapping("/classblock/{id}")
+    public ResponseEntity<ClassBlock> addClassInToClassBlock(@PathVariable Long id, @RequestBody Classes classes){
+        return classBlockService.addClassesInBlock(id, classes);
     }
 
 

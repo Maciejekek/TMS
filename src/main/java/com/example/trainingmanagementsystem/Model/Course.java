@@ -6,8 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
 @Entity
 @Getter
@@ -23,10 +23,10 @@ public class Course {
     private String name;
 
     @OneToMany
-    private Set<ClassBlock> classBlockSet;
+    private List<ClassBlock> classBlockList = new LinkedList<>();
 
-    @OneToMany
-    private Set<Person> personSet;
+    @ManyToMany(fetch = FetchType.EAGER)
+    private List<Person> personList = new LinkedList<>();
 
     @OneToMany
     private List<Notification> notificationsList;
