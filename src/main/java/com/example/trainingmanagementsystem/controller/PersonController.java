@@ -3,14 +3,11 @@ package com.example.trainingmanagementsystem.controller;
 import com.example.trainingmanagementsystem.Model.Person;
 import com.example.trainingmanagementsystem.service.PersonService;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @AllArgsConstructor
 @RestController
@@ -35,6 +32,10 @@ public class PersonController {
         return personService.save(person);
     }
 
+    @PatchMapping("/{id}")
+    public ResponseEntity<Person> editPerson(@PathVariable Long id, @RequestBody Person person){
+        return personService.editPerson(id, person);
+    }
 
 
 

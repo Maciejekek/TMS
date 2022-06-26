@@ -25,7 +25,7 @@ public class PersonService {
         return personRepository.save(person);
     }
 
-    public ResponseEntity<Person> updatePerson(Long id,Person person){
+    public ResponseEntity<Person> editPerson(Long id, Person person){
         Person updatePerson = personRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Employee not exist with id:" + id));
