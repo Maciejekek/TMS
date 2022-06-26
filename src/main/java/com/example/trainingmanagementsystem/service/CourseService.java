@@ -17,9 +17,7 @@ import java.util.List;
 @Service
 public class CourseService {
 
-
     CourseRepository courseRepository;
-
     PersonRepository personRepository;
 
     public List<Course> findAll(){
@@ -37,11 +35,8 @@ public class CourseService {
         Course updateCourse = courseRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
-
         updateCourse.getClassBlockSet().add(classBlock);
-
         courseRepository.save(updateCourse);
-
         return ResponseEntity.ok(updateCourse);
     }
 
@@ -49,11 +44,8 @@ public class CourseService {
         Course updateCourse = courseRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
-
         updateCourse.getPersonSet().add(person);
-
         courseRepository.save(updateCourse);
-
         return ResponseEntity.ok(updateCourse);
     }
 
@@ -61,9 +53,7 @@ public class CourseService {
         Course course = courseRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
-
         courseRepository.delete(course);
-
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
@@ -72,12 +62,12 @@ public class CourseService {
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
 
-        var cos = course.getClassBlockSet()
+        var optionalClassBlock = course.getClassBlockSet()
                 .stream()
                 .filter(classBlock -> classBlock.getId().equals(blockId))
                 .findFirst();
 
-        cos.ifPresent(tmp -> course.getClassBlockSet().remove(tmp));
+        optionalClassBlock.ifPresent(tmp -> course.getClassBlockSet().remove(tmp));
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -92,7 +82,7 @@ public class CourseService {
                 .filter(person -> person.getId().equals(personId))
                 .findFirst();
 
-        optionalPerson.ifPresent(tmp -> course.getPersonSet().remove(tmp));
+        optionalPerson.ifPresent(person -> course.getPersonSet().remove(person));
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
