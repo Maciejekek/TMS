@@ -94,7 +94,8 @@ public class CourseService {
                 .findFirst();
 
         optionalPerson.ifPresent(person -> course.getPersonList().remove(person));
-
+        optionalPerson.ifPresent(person -> person.getCourseList().remove(course));
+        optionalPerson.ifPresent(person -> personRepository.save(person));
         courseRepository.save(course);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
