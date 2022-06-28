@@ -24,7 +24,6 @@ public class Course {
     private String name;
 
     @OneToMany
-    @JsonIgnore
     private List<ClassBlock> classBlockList = new LinkedList<>();
 
     @ManyToMany(mappedBy = "courseList")
@@ -32,6 +31,5 @@ public class Course {
     private List<Person> personList = new LinkedList<>();
 
     @OneToMany
-    @JsonIgnore
     private List<Notification> notificationsList = new LinkedList<>();
 }

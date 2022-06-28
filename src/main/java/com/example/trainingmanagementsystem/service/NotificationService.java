@@ -27,12 +27,14 @@ public class NotificationService {
     }
 
     public ResponseEntity<Notification> getById(Long id){
-        return ResponseEntity.ok(notificationRepository.findById(id)
+        return ResponseEntity.ok(notificationRepository
+                .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Notification with id:" + id + "not exist")));
     }
 
     public ResponseEntity<Notification> update(Long id, Notification notification) {
-       Notification updateNotification = notificationRepository.findById(id)
+       Notification updateNotification = notificationRepository
+               .findById(id)
                .orElseThrow(() -> new ResourceNotFoundException("Notification with id:" + id + "not exist"));
 
        updateNotification.setDate(notification.getDate());
@@ -45,7 +47,8 @@ public class NotificationService {
     }
 
     public ResponseEntity<HttpStatus> delete(Long id){
-        Notification notification = notificationRepository.findById(id)
+        Notification notification = notificationRepository
+                .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Notification with id:" + id + "not exist"));
 
         notificationRepository.delete(notification);

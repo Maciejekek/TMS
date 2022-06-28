@@ -24,10 +24,16 @@ public class CourseService {
         return courseRepository.findAll();
     }
 
+    public Course getCourseById(Long courseId) {
+        return courseRepository
+                .findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
+    }
+
     public List<Course> getCourseByPersonId(Long id){
         return personRepository
                 .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("User with id:" + id + "not exist"))
+                .orElseThrow(() -> new ResourceNotFoundException("Person with id:" + id + "not exist"))
                 .getCourseList();
     }
 

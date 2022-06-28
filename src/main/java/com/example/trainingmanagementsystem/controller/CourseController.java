@@ -31,18 +31,23 @@ public class CourseController {
         return service.getCourseByPersonId(id);
     }
 
+    @GetMapping("/course/{courseId}")
+    public Course getCourseById(@PathVariable Long courseId){
+        return service.getCourseById(courseId);
+    }
+
     @GetMapping("/course/personList")
     public List<Person> getCoursePersonList(@RequestParam("courseId") Long courseId){
         return service.getCoursePersonList(courseId);
     }
 
     @PutMapping("/course/")
-    public ResponseEntity<Course> addBlock(@RequestParam("courseId") Long courseId, @RequestParam("blockId") Long blockId){
+    public ResponseEntity<Course> addBlockInToCourse(@RequestParam("courseId") Long courseId, @RequestParam("blockId") Long blockId){
         return service.addBlockInToCourse(courseId, blockId);
     }
 
     @PutMapping("/course/addperson")
-    public ResponseEntity<Course> addPerson(@RequestParam("courseId") Long id, @RequestParam("personId") Long personId){
+    public ResponseEntity<Course> addPersonInToCourse(@RequestParam("courseId") Long id, @RequestParam("personId") Long personId){
         return service.addPersonInToCourse(id, personId);
     }
 
@@ -61,7 +66,7 @@ public class CourseController {
         return service.deleteBlockFromCourse(id, blockId);
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping("/course")
     public ResponseEntity<HttpStatus> deleteCourse(@RequestParam("course")Long id){
         return service.deleteCourse(id);
     }

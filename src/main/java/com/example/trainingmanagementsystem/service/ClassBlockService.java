@@ -5,6 +5,7 @@ import com.example.trainingmanagementsystem.Model.Classes;
 import com.example.trainingmanagementsystem.exceptions.ResourceNotFoundException;
 import com.example.trainingmanagementsystem.repository.ClassBlockRepository;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
@@ -41,12 +42,13 @@ public class ClassBlockService {
         return ResponseEntity.ok(updateClassBlock);
     }
 
-    public void deleteClassBlock(Long id) {
+    public ResponseEntity<HttpStatus> deleteClassBlock(Long id) {
         ClassBlock classBlock = classBlockRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Class Block with id:" + id + "not exist"));
 
         classBlockRepository.delete(classBlock);
+        return new  ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
     public ResponseEntity<ClassBlock> addClassesInBlock(Long id, Classes classes){

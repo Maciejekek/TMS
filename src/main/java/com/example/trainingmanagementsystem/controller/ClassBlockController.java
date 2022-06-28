@@ -4,6 +4,7 @@ import com.example.trainingmanagementsystem.Model.ClassBlock;
 import com.example.trainingmanagementsystem.Model.Classes;
 import com.example.trainingmanagementsystem.service.ClassBlockService;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -31,13 +32,13 @@ public class ClassBlockController {
     }
 
     @PatchMapping("{id}")
-    public ResponseEntity<ClassBlock> patchClassBlock(@PathVariable Long id, @RequestBody ClassBlock classBlock) {
+    public ResponseEntity<ClassBlock> editClassBlock(@PathVariable Long id, @RequestBody ClassBlock classBlock) {
         return classBlockService.editClassBlock(id, classBlock);
     }
 
     @DeleteMapping("{id}")
-    public void deleteClassBlock(@PathVariable Long id) {
-        classBlockService.deleteClassBlock(id);
+    public ResponseEntity<HttpStatus> deleteClassBlock(@PathVariable Long id) {
+        return classBlockService.deleteClassBlock(id);
     }
 
     @PutMapping("{id}")
