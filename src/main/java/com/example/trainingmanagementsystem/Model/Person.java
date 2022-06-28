@@ -29,7 +29,7 @@ public class Person {
     @OneToMany
     private List<PersonNotification> notificationList = new LinkedList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany
     @JoinTable(
             name = "person_courses",
             joinColumns = @JoinColumn(name = "personList_id"),

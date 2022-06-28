@@ -1,6 +1,7 @@
 package com.example.trainingmanagementsystem.controller;
 
 import com.example.trainingmanagementsystem.Model.Course;
+import com.example.trainingmanagementsystem.Model.Person;
 import com.example.trainingmanagementsystem.service.CourseService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -28,6 +29,11 @@ public class CourseController {
     @GetMapping("/course/")
     public List<Course> getCourseByPersonId(@RequestParam("personId") Long id){
         return service.getCourseByPersonId(id);
+    }
+
+    @GetMapping("/course/personList")
+    public List<Person> getCoursePersonList(@RequestParam("courseId") Long courseId){
+        return service.getCoursePersonList(courseId);
     }
 
     @PutMapping("/course/")

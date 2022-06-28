@@ -1,5 +1,6 @@
 package com.example.trainingmanagementsystem.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -23,11 +24,14 @@ public class Course {
     private String name;
 
     @OneToMany
+    @JsonIgnore
     private List<ClassBlock> classBlockList = new LinkedList<>();
 
     @ManyToMany(mappedBy = "courseList")
+    @JsonIgnore
     private List<Person> personList = new LinkedList<>();
 
     @OneToMany
+    @JsonIgnore
     private List<Notification> notificationsList = new LinkedList<>();
 }

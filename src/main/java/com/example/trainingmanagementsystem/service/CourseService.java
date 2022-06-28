@@ -133,4 +133,11 @@ public class CourseService {
 
         courseRepository.save(course);
     }
+
+    public List<Person> getCoursePersonList(Long courseId) {
+        return courseRepository
+                .findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"))
+                .getPersonList();
+    }
 }
