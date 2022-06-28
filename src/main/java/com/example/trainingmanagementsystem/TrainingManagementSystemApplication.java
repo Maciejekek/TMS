@@ -31,7 +31,7 @@ public class TrainingManagementSystemApplication implements CommandLineRunner {
 
     @Override
     @Transactional
-    public void run(String... args){
+    public void run(String... args) throws Exception{
 
         Person person1 = new Person();
         person1.setName("Tomasz");

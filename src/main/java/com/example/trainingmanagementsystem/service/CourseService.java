@@ -52,7 +52,9 @@ public class CourseService {
                 .orElseThrow(() -> new ResourceNotFoundException("Person with id:"+ PersonId + "not exist"));
 
         updateCourse.getPersonList().add(person);
+        person.getCourseList().add(updateCourse);
         courseRepository.save(updateCourse);
+        personRepository.save(person);
         return ResponseEntity.ok(updateCourse);
     }
 
