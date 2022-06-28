@@ -1,7 +1,6 @@
 package com.example.trainingmanagementsystem.controller;
 
 import com.example.trainingmanagementsystem.Model.ClassBlock;
-import com.example.trainingmanagementsystem.Model.Classes;
 import com.example.trainingmanagementsystem.service.ClassBlockService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -21,8 +20,8 @@ public class ClassBlockController {
         return classBlockService.findAll();
     }
 
-    @GetMapping("{id}")
-    public ClassBlock getClassBlockById(@PathVariable Long id) {
+    @GetMapping("/")
+    public ClassBlock getClassBlockById(@RequestParam("classBlockId") Long id) {
         return classBlockService.findById(id);
     }
 
@@ -31,18 +30,18 @@ public class ClassBlockController {
         return classBlockService.addClassBlock(classBlock);
     }
 
-    @PatchMapping("{id}")
-    public ResponseEntity<ClassBlock> editClassBlock(@PathVariable Long id, @RequestBody ClassBlock classBlock) {
+    @PatchMapping("/")
+    public ResponseEntity<ClassBlock> editClassBlock(@RequestParam("classBlockId") Long id, @RequestBody ClassBlock classBlock) {
         return classBlockService.editClassBlock(id, classBlock);
     }
 
-    @DeleteMapping("{id}")
-    public ResponseEntity<HttpStatus> deleteClassBlock(@PathVariable Long id) {
+    @DeleteMapping("/")
+    public ResponseEntity<HttpStatus> deleteClassBlock(@RequestParam("classBlockId") Long id) {
         return classBlockService.deleteClassBlock(id);
     }
 
-    @PutMapping("{id}")
-    public ResponseEntity<ClassBlock> addClassInToClassBlock(@PathVariable Long id, @RequestBody Classes classes){
-        return classBlockService.addClassesInBlock(id, classes);
+    @PutMapping("/")
+    public ResponseEntity<ClassBlock> addClassInToClassBlock(@RequestParam("classBlockId") Long id, @RequestParam("classesId") Long classesId){
+        return classBlockService.addClassesInBlock(id, classesId);
     }
 }

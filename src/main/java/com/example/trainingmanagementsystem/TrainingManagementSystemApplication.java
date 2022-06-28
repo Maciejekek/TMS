@@ -99,8 +99,8 @@ public class TrainingManagementSystemApplication implements CommandLineRunner {
         classBlock2.setName("Zawansowane");
         classBlockService.addClassBlock(classBlock2);
 
-        classBlockService.addClassesInBlock(1L, classes1);
-        classBlockService.addClassesInBlock(1L, classes2);
+        classBlockService.addClassesInBlock(1L, 1L);
+        classBlockService.addClassesInBlock(1L, 2L);
 
         Course course1 = new Course();
         course1.setName("Java");

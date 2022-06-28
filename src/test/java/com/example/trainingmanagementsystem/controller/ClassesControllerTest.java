@@ -12,28 +12,28 @@ import java.util.Date;
 @ExtendWith(MockitoExtension.class)
 class ClassesControllerTest {
 
-    private final static Classes CLASSES = new Classes(1L, "topic", new Date());
-
-    @Mock
-    private ClassesService classesService;
-
-    @Test
-    void getAllClasses() {
-        classesService.findAll();
-    }
-
-    @Test
-    void postAddClasses() {
-        classesService.getAddClass(CLASSES);
-    }
-
-    @Test
-    void patchClasses() {
-        classesService.getEditClass(CLASSES);
-    }
-
-    @Test
-    void deleteClasses() {
-        classesService.deleteClassById(CLASSES.getId());
-    }
+//    private final static Classes CLASSES = new Classes(1L, "topic", new Date());
+//
+//    @Mock
+//    private ClassesService classesService;
+//
+//    @Test
+//    void getAllClasses() {
+//        classesService.findAll();
+//    }
+//
+//    @Test
+//    void postAddClasses() {
+//        classesService.getAddClass(CLASSES);
+//    }
+//
+//    @Test
+//    void patchClasses() {
+//        classesService.getEditClass(CLASSES);
+//    }
+//
+//    @Test
+//    void deleteClasses() {
+//        classesService.deleteClassById(CLASSES.getId());
+//    }
 }

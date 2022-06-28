@@ -1,6 +1,5 @@
 package com.example.trainingmanagementsystem.service;
 
-import com.example.trainingmanagementsystem.Model.Course;
 import com.example.trainingmanagementsystem.Model.Person;
 import com.example.trainingmanagementsystem.Model.PersonAccountData;
 import com.example.trainingmanagementsystem.exceptions.ResourceNotFoundException;
