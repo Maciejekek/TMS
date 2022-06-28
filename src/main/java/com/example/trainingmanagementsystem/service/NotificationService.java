@@ -1,40 +1,28 @@
 package com.example.trainingmanagementsystem.service;
 
-import com.example.trainingmanagementsystem.Model.Course;
 import com.example.trainingmanagementsystem.Model.Notification;
 import com.example.trainingmanagementsystem.exceptions.ResourceNotFoundException;
 import com.example.trainingmanagementsystem.repository.NotificationRepository;
-import com.example.trainingmanagementsystem.repository.PersonRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
 public class NotificationService {
 
-    PersonRepository personRepository;
-
     NotificationRepository notificationRepository;
+    CourseService courseService;
 
-    public List<Notification> getAll(Long userId) {
-
-        return personRepository
-                .findById(userId)
-                .orElseThrow(() -> new ResourceNotFoundException("User with id:" + userId + " not exist"))
-                .getCourseList()
-                .stream()
-                .map(Course::getNotificationsList)
-                .flatMap(List::stream)
-                .collect(Collectors.toList());
+    public List<Notification> getAll() {
+        return notificationRepository.findAll();
     }
 
-
-    public Notification save(Notification notification) {
+    public Notification save(Notification notification, Long id) {
+        courseService.addNotification(notification, id);
         return notificationRepository.save(notification);
     }
 

@@ -1,9 +1,8 @@
 package com.example.trainingmanagementsystem.service;
 
-import com.example.trainingmanagementsystem.Model.ClassBlock;
-import com.example.trainingmanagementsystem.Model.Course;
-import com.example.trainingmanagementsystem.Model.Person;
+import com.example.trainingmanagementsystem.Model.*;
 import com.example.trainingmanagementsystem.exceptions.ResourceNotFoundException;
+import com.example.trainingmanagementsystem.repository.ClassBlockRepository;
 import com.example.trainingmanagementsystem.repository.CourseRepository;
 import com.example.trainingmanagementsystem.repository.PersonRepository;
 import lombok.AllArgsConstructor;
@@ -19,8 +18,9 @@ public class CourseService {
 
     CourseRepository courseRepository;
     PersonRepository personRepository;
+    ClassBlockRepository blockRepository;
 
-    public List<Course> findAll(){
+    public List<Course> findAllCourses(){
         return courseRepository.findAll();
     }
 
@@ -31,51 +31,60 @@ public class CourseService {
                 .getCourseList();
     }
 
-    public ResponseEntity<Course> addBlockInToCourse(Long id, ClassBlock classBlock){
+    public ResponseEntity<Course> addBlockInToCourse(Long courseId, Long blockId){
         Course updateCourse = courseRepository
-                .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
+                .findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
+        ClassBlock classBlock = blockRepository
+                .findById(blockId)
+                .orElseThrow(() -> new ResourceNotFoundException("Class Block with id:"+ blockId + "not exist"));
         updateCourse.getClassBlockList().add(classBlock);
         courseRepository.save(updateCourse);
         return ResponseEntity.ok(updateCourse);
     }
 
-    public ResponseEntity<Course> addPersonInToCourse(Long id, Person person){
+    public ResponseEntity<Course> addPersonInToCourse(Long courseId, Long PersonId){
         Course updateCourse = courseRepository
-                .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
+                .findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
+        Person person = personRepository
+                .findById(PersonId)
+                .orElseThrow(() -> new ResourceNotFoundException("Person with id:"+ PersonId + "not exist"));
+
         updateCourse.getPersonList().add(person);
         courseRepository.save(updateCourse);
         return ResponseEntity.ok(updateCourse);
     }
 
-    public ResponseEntity<HttpStatus> deleteCourse(Long id){
+    public ResponseEntity<HttpStatus> deleteCourse(Long courseId){
         Course course = courseRepository
-                .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
+                .findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
         courseRepository.delete(course);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity<HttpStatus> deleteBlockFromCourse(Long id, Long blockId){
+    public ResponseEntity<HttpStatus> deleteBlockFromCourse(Long courseId, Long blockId){
         Course course = courseRepository
-                .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
+                .findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
 
         var optionalClassBlock = course.getClassBlockList()
                 .stream()
                 .filter(classBlock -> classBlock.getId().equals(blockId))
                 .findFirst();
 
-        optionalClassBlock.ifPresent(tmp -> course.getClassBlockList().remove(tmp));
+        optionalClassBlock.ifPresent(classBlock -> course.getClassBlockList().remove(classBlock));
+
+        courseRepository.save(course);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity<HttpStatus> deletePersonFromCourse(Long id, Long personId){
+    public ResponseEntity<HttpStatus> deletePersonFromCourse(Long courseId, Long personId){
         Course course = courseRepository
-                .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
+                .findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
 
         var optionalPerson = course.getPersonList()
                 .stream()
@@ -84,14 +93,16 @@ public class CourseService {
 
         optionalPerson.ifPresent(person -> course.getPersonList().remove(person));
 
+        courseRepository.save(course);
+
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
 
-    public ResponseEntity<Course> editCourse(Long id, Course course) {
+    public ResponseEntity<Course> editCourse(Long courseId, Course course) {
         Course updateCourse = courseRepository
-                .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ id + "not exist"));
+                .findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
 
         updateCourse.setName(course.getName());
 
@@ -102,5 +113,22 @@ public class CourseService {
 
     public Course addCourse(Course course) {
         return courseRepository.save(course);
+    }
+
+    public void addNotification(Notification notification, Long courseId) {
+
+        Course course = courseRepository
+                .findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
+
+        course.getNotificationsList().add(notification);
+
+        PersonNotification personNotification = new PersonNotification();
+        personNotification.setNotification(notification);
+        personNotification.setIsRead(false);
+
+        course.getPersonList().forEach(person -> person.getNotificationList().add(personNotification));
+
+        courseRepository.save(course);
     }
 }

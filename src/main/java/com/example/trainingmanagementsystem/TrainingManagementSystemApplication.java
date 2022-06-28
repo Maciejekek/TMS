@@ -1,14 +1,10 @@
 package com.example.trainingmanagementsystem;
 
-import com.example.trainingmanagementsystem.Model.ClassBlock;
-import com.example.trainingmanagementsystem.Model.Classes;
-import com.example.trainingmanagementsystem.Model.Course;
-import com.example.trainingmanagementsystem.Model.Person;
+import com.example.trainingmanagementsystem.Model.*;
 import com.example.trainingmanagementsystem.service.ClassBlockService;
 import com.example.trainingmanagementsystem.service.ClassesService;
 import com.example.trainingmanagementsystem.service.CourseService;
 import com.example.trainingmanagementsystem.service.PersonService;
-import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -16,9 +12,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 import javax.transaction.Transactional;
 import java.time.LocalDate;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
 
 @SpringBootApplication
 public class TrainingManagementSystemApplication implements CommandLineRunner {
@@ -38,61 +31,73 @@ public class TrainingManagementSystemApplication implements CommandLineRunner {
 
     @Override
     @Transactional
-    public void run(String... args) throws Exception {
+    public void run(String... args){
 
         Person person1 = new Person();
-        person1.setLogin("Rybak");
-        person1.setPassword("MiToRybka");
-        person1.setType("user");
         person1.setName("Tomasz");
         person1.setLastName("J");
-        person1.setIsActive(true);
-        personService.getAddPerson(person1);
+        personService.savePerson(person1);
+        PersonAccountData personAccountData1 = new PersonAccountData();
+        personAccountData1.setLogin("Rybak");
+        personAccountData1.setPassword("MiToRybka");
+        personAccountData1.setType("user");
+        personAccountData1.setIsActive(true);
+        personAccountData1.setPerson(person1);
+        personService.savePersonAccountData(personAccountData1);
 
         Person person2 = new Person();
-        person2.setLogin("Rybak2");
-        person2.setPassword("MiToRybka3");
-        person2.setType("user");
         person2.setName("Magda");
         person2.setLastName("Magda");
-        person2.setIsActive(true);
-        personService.getAddPerson(person2);
+        personService.savePerson(person2);
+        PersonAccountData personAccountData2 = new PersonAccountData();
+        personAccountData2.setLogin("Rybak2");
+        personAccountData2.setPassword("MiToRybka3");
+        personAccountData2.setType("user");
+        personAccountData2.setIsActive(true);
+        personAccountData2.setPerson(person2);
+        personService.savePersonAccountData(personAccountData2);
 
         Person person3 = new Person();
-        person3.setLogin("Rybak4");
-        person3.setPassword("MiToRybka5");
-        person3.setType("user");
         person3.setName("Maciej");
         person3.setLastName("Maciejewicz");
-        person3.setIsActive(true);
-        personService.getAddPerson(person3);
+        personService.savePerson(person3);
+        PersonAccountData personAccountData3 = new PersonAccountData();
+        personAccountData3.setLogin("Rybak4");
+        personAccountData3.setPassword("MiToRybka5");
+        personAccountData3.setType("user");
+        personAccountData3.setIsActive(true);
+        personAccountData3.setPerson(person3);
+        personService.savePersonAccountData(personAccountData3);
 
         Person person4 = new Person();
-        person4.setLogin("Rybak6");
-        person4.setPassword("MiToRybka7");
-        person4.setType("user");
         person4.setName("J");
         person4.setLastName("Tomasz");
-        person4.setIsActive(true);
-        personService.getAddPerson(person4);
+        personService.savePerson(person4);
+        PersonAccountData personAccountData4 = new PersonAccountData();
+        personAccountData4.setLogin("Rybak6");
+        personAccountData4.setPassword("MiToRybka7");
+        personAccountData4.setType("user");
+        personAccountData4.setIsActive(true);
+        personAccountData4.setPerson(person4);
+        personService.savePersonAccountData(personAccountData4);
 
         Classes classes1 = new Classes();
         classes1.setTopic("Typy danych");
         classes1.setDate(LocalDate.of(2022,6,25));
-        classesService.getAddClass(classes1);
+        classesService.addClasses(classes1);
 
         Classes classes2 = new Classes();
         classes2.setTopic("Metody");
         classes2.setDate(LocalDate.of(2022,6,26));
-        classesService.getAddClass(classes2);
+        classesService.addClasses(classes2);
 
         ClassBlock classBlock1 = new ClassBlock();
         classBlock1.setName("Podstawy");
-        classBlockService.getAddClassBlock(classBlock1);
+        classBlockService.addClassBlock(classBlock1);
 
         ClassBlock classBlock2 = new ClassBlock();
         classBlock2.setName("Zawansowane");
-        classBlockService.getAddClassBlock(classBlock2);
+        classBlockService.addClassBlock(classBlock2);
 
         classBlockService.addClassesInBlock(1L, classes1);
         classBlockService.addClassesInBlock(1L, classes2);
@@ -100,12 +105,12 @@ public class TrainingManagementSystemApplication implements CommandLineRunner {
         Course course1 = new Course();
         course1.setName("Java");
         courseService.addCourse(course1);
-        courseService.addPersonInToCourse(1L, person1);
-        courseService.addPersonInToCourse(1L, person2);
-        courseService.addPersonInToCourse(1L, person3);
-        courseService.addPersonInToCourse(1L, person4);
-        courseService.addBlockInToCourse(1L, classBlock1);
-        courseService.addBlockInToCourse(1L, classBlock2);
+        courseService.addPersonInToCourse(1L, 1L);
+        courseService.addPersonInToCourse(1L, 2L);
+        courseService.addPersonInToCourse(1L, 3L);
+        courseService.addPersonInToCourse(1L, 4L);
+        courseService.addBlockInToCourse(1L, 1L);
+        courseService.addBlockInToCourse(1L, 2L);
 
     }
 }

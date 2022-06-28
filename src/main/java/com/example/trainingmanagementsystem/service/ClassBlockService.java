@@ -19,15 +19,7 @@ public class ClassBlockService {
         return classBlockRepository.findAll();
     }
 
-    public ClassBlock getAddClassBlock(ClassBlock classBlock) {
-        return classBlockRepository.save(classBlock);
-    }
-
-    public ClassBlock getEditClassBlock(Long id, ClassBlock classBlock) {
-        classBlockRepository
-                .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Class Block with id:" + id + " not exist"));
-
+    public ClassBlock addClassBlock(ClassBlock classBlock) {
         return classBlockRepository.save(classBlock);
     }
 
@@ -35,6 +27,18 @@ public class ClassBlockService {
         return classBlockRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Class Block with id:" + id + " not exist"));
+    }
+
+    public ResponseEntity<ClassBlock> editClassBlock(Long id, ClassBlock classBlock) {
+        var updateClassBlock = classBlockRepository
+                .findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Class Block with id:" + id + " not exist"));
+
+        updateClassBlock.setName(classBlock.getName());
+
+        classBlockRepository.save(updateClassBlock);
+
+        return ResponseEntity.ok(updateClassBlock);
     }
 
     public void deleteClassBlock(Long id) {

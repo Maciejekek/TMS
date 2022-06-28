@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
 
-@Entity
+@Entity(name = "courses")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -25,7 +25,7 @@ public class Course {
     @OneToMany
     private List<ClassBlock> classBlockList = new LinkedList<>();
 
-    @ManyToMany(fetch = FetchType.EAGER)
+    @ManyToMany(mappedBy = "courseList")
     private List<Person> personList = new LinkedList<>();
 
     @OneToMany
