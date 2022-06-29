@@ -1,6 +1,6 @@
-insert into class_block(id, class_block_name)
-values (1, 'test');
+insert into class_block(class_block_name)
+values ('test');
 
-insert into class_block(id, class_block_name)
+insert into class_block(class_block_name)
 values ('test');
 

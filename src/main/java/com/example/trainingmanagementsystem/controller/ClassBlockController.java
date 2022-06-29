@@ -9,6 +9,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @RestController
@@ -29,9 +30,9 @@ public class ClassBlockController {
     }
 
     @PostMapping("/addClassBlock")
-    public ResponseEntity postAddClassBlock(@RequestBody ClassBlock classBlock) {
+    public ResponseEntity postAddClassBlock(@RequestBody @Valid ClassBlock classBlock) {
         var addNewClassBlock = classBlockService.getAddClassBlock(classBlock);
-        if (addNewClassBlock.equals(classBlock)) {
+        if (addNewClassBlock.getId() !=null) {
             return new ResponseEntity<>(HttpStatus.CREATED);
         } else {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);

@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotNull;
 
 import java.util.Objects;
 
@@ -22,6 +23,7 @@ public class ClassBlock {
     private Long id;
 
 
+    @NotNull
     @Column(name = "CLASS_BLOCK_NAME")
     private String name;
 

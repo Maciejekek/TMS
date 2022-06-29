@@ -43,17 +43,32 @@ class ClassBlockControllerTest {
     }
 
     @Test
-    @DisplayName("Should get class block by id ")
-    void shouldPostClassBlockById() throws Exception {
+    @DisplayName("Should create new blok class")
+    void shouldPostClassBlockWithCreated() throws Exception {
 
         this.mockMvc
-                .perform(post("/classBlocks/")
+                .perform(post("/classBlocks/addClassBlock")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("{\"name\" : \"name\"}"))
+                        .content("""
+                                {"name" : "name"}
+                                """))
                 .andDo(print())
-                .andExpect(status().isCreated())
-                .andExpect(jsonPath("$.id").exists())
-                .andExpect(jsonPath("$.name").value("name"));
+                .andExpect(status().isCreated()); // po utworzeniu zasobu nie zwracasz go, więc reszta sprawdzania nie ma sensu
+
+    }
+
+    @Test
+    @DisplayName("Should return http code 400 when json is bad")
+    void shouldPostClassBlockThenHttpError400() throws Exception {
+
+        this.mockMvc
+                .perform(post("/classBlocks/addClassBlock")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"name" : }
+                                """))
+                .andDo(print())
+                .andExpect(status().is4xxClientError()); // po utworzeniu zasobu nie zwracasz go, więc reszta sprawdzania nie ma sensu
 
     }
 
