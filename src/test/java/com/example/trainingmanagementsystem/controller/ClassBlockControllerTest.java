@@ -43,6 +43,19 @@ class ClassBlockControllerTest {
     }
 
     @Test
+    @DisplayName("Should get class block by id ")
+    void shouldGetClassBlockById() throws Exception {
+        var id = 1L;
+
+        this.mockMvc
+                .perform(MockMvcRequestBuilders.get("/classBlocks/" + id))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(id))
+                .andExpect(jsonPath("$.name").exists());
+    }
+
+    @Test
     @DisplayName("Should create new blok class")
     void shouldPostClassBlockWithCreated() throws Exception {
 
@@ -72,14 +85,19 @@ class ClassBlockControllerTest {
 
     }
 
-    @Test
-    void patchClasses() {
-
-
-    }
-
-    @Test
-    void deleteClasses() {
-
-    }
+//    @Test
+//    void shouldPatchClasses() {
+//        var id = 1L;
+//
+//        this.mockMvc
+//                .perform(patch("/classBlocks/" + id));
+//
+//
+//    }
+//
+//    @Test
+//    void deleteClasses() {
+//
+//    }
 }
+
