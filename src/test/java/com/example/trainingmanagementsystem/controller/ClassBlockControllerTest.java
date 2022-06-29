@@ -37,7 +37,7 @@ class ClassBlockControllerTest {
                 .perform(MockMvcRequestBuilders.get("/classBlocks"))
                 .andDo(print())
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.size()", Matchers.is(1)))
+                .andExpect(jsonPath("$.size()", Matchers.greaterThan(1)))
                 .andExpect(jsonPath("$[0].id").exists())
                 .andExpect(jsonPath("$[0].name").exists());
     }
@@ -60,7 +60,7 @@ class ClassBlockControllerTest {
     void shouldPostClassBlockWithCreated() throws Exception {
 
         this.mockMvc
-                .perform(post("/classBlocks/addClassBlock")
+                .perform(post("/classBlocks")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"name" : "name"}
@@ -75,7 +75,7 @@ class ClassBlockControllerTest {
     void shouldPostClassBlockThenHttpError400() throws Exception {
 
         this.mockMvc
-                .perform(post("/classBlocks/addClassBlock")
+                .perform(post("/classBlocks")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"name" : }
