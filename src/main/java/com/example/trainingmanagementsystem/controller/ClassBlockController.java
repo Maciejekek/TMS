@@ -18,17 +18,17 @@ public class ClassBlockController {
 
     private final ClassBlockService classBlockService;
 
-    @GetMapping("/allClassBlocks")
+    @GetMapping
     public ResponseEntity<List<ClassBlock>> getAllClassBlocks() {
         return new ResponseEntity<>(classBlockService.findAll(), HttpStatus.OK);
     }
 
-    @GetMapping("/getClassBlockById/{id}")
+    @GetMapping("/{id}")
     public ResponseEntity<ClassBlock> getClassBlockById(@PathVariable Long id) {
         return new ResponseEntity<>(classBlockService.findById(id), HttpStatus.OK);
     }
 
-    @PostMapping("/addClassBlock")
+    @PostMapping
     public ResponseEntity postAddClassBlock(@RequestBody ClassBlock classBlock) {
         var addNewClassBlock = classBlockService.getAddClassBlock(classBlock);
         if (addNewClassBlock.equals(classBlock)) {
@@ -39,7 +39,7 @@ public class ClassBlockController {
 
     }
 
-    @PatchMapping("/editClassBlock/{id}")
+    @PatchMapping("/{id}")
     public ResponseEntity patchClassBlock(@PathVariable Long id, @RequestBody ClassBlock classBlock) {
         var editClassBlock = classBlockService.getEditClassBlock(id, classBlock);
         if (editClassBlock.equals(classBlock)) {
