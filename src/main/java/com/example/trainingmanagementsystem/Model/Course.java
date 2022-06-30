@@ -1,15 +1,16 @@
 package com.example.trainingmanagementsystem.Model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import java.util.LinkedList;
 import java.util.List;
-import java.util.Set;
 
-@Entity
+@Entity(name = "courses")
 @Getter
 @Setter
 @NoArgsConstructor
@@ -23,11 +24,12 @@ public class Course {
     private String name;
 
     @OneToMany
-    private Set<ClassBlock> classBlockSet;
+    private List<ClassBlock> classBlockList = new LinkedList<>();
+
+    @ManyToMany(mappedBy = "courseList")
+    @JsonIgnore
+    private List<Person> personList = new LinkedList<>();
 
     @OneToMany
-    private Set<Person> personSet;
-
-    @OneToMany
-    private List<Notification> notificationsList;
+    private List<Notification> notificationsList = new LinkedList<>();
 }

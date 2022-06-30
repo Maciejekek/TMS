@@ -6,10 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotNull;
 
-import java.util.Objects;
-
+import java.util.LinkedList;
+import java.util.List;
 
 @Entity
 @Getter
@@ -22,25 +21,10 @@ public class ClassBlock {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-
-    @NotNull
     @Column(name = "CLASS_BLOCK_NAME")
     private String name;
 
-//    @OneToMany
-//    private List<Classes> classesList;
+    @OneToMany
+    private List<Classes> classesList = new LinkedList<>();
 
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        ClassBlock that = (ClassBlock) o;
-        return Objects.equals(id, that.id) && Objects.equals(name, that.name);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, name);
-    }
 }

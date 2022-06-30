@@ -6,26 +6,30 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
-import java.util.Date;
 
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Notification {
+public class PersonAccountData {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "NOTIFICATION_DATE")
-    private Date date;
+    @OneToOne
+    private Person person = new Person();
 
-    @Column(name = "CLASS_NAME")
-    private String className;
+    @Column(name = "LOGIN")
+    private String login;
 
-    @Column(name = "DESCRIPTION")
-    private String description;
+    @Column(name = "PASSWORD")
+    private String password;
 
+    @Column(name = "TYPE")
+    private String type;
+
+    @Column(name = "IS_ACTIVE")
+    private Boolean isActive;
 }
