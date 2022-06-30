@@ -11,7 +11,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -66,7 +66,7 @@ class ClassBlockControllerTest {
                                 {"name" : "name"}
                                 """))
                 .andDo(print())
-                .andExpect(status().isCreated()); // po utworzeniu zasobu nie zwracasz go, więc reszta sprawdzania nie ma sensu
+                .andExpect(status().isCreated());
 
     }
 
@@ -81,23 +81,36 @@ class ClassBlockControllerTest {
                                 {"name" : }
                                 """))
                 .andDo(print())
-                .andExpect(status().is4xxClientError()); // po utworzeniu zasobu nie zwracasz go, więc reszta sprawdzania nie ma sensu
+                .andExpect(status().is4xxClientError());
 
     }
 
-//    @Test
-//    void shouldPatchClasses() {
-//        var id = 1L;
-//
-//        this.mockMvc
-//                .perform(patch("/classBlocks/" + id));
-//
-//
-//    }
-//
-//    @Test
-//    void deleteClasses() {
-//
-//    }
+    @Test
+    @DisplayName("Should Patch Classes By Id")
+    void shouldPatchClassesBlockById() throws Exception {
+        var id = 1L;
+
+        this.mockMvc
+                .perform(patch("/classBlocks/" + id)
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {"name" : "imie" }
+                                """))
+                .andDo(print())
+                .andExpect(status().isCreated());
+
+    }
+
+    @Test
+    @DisplayName("Should delete Classes Box by Id ")
+    void shouldDeleteClassesBoxById() throws Exception {
+        var id = 1L;
+        this.mockMvc
+                .perform(delete("/classBlocks/" + id))
+                .andDo(print())
+                .andExpect(status().isOk());
+
+
+    }
 }
 

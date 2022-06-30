@@ -50,7 +50,7 @@ public class ClassBlockController {
         }
     }
 
-    @DeleteMapping("/deleteClassBlock/{id}")
+    @DeleteMapping("/{id}")
     public void deleteClassBlock(@PathVariable Long id) {
         classBlockService.deleteClassBlock(id);
 
