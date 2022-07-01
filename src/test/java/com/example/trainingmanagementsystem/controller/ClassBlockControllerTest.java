@@ -99,7 +99,6 @@ class ClassBlockControllerTest {
                                 """))
                 .andDo(print())
                 .andExpect(status().isOk());
-
     }
 
     @Test
@@ -110,8 +109,6 @@ class ClassBlockControllerTest {
                 .perform(delete("/classBlocks?classBlockId=1"))
                 .andDo(print())
                 .andExpect(status().isOk());
-
-
     }
 }
 
