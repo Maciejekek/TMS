@@ -1,5 +1,6 @@
 package com.example.trainingmanagementsystem.controller;
 
+import com.example.trainingmanagementsystem.service.ClassBlockService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -11,7 +12,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -22,6 +24,9 @@ class ClassBlockControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Autowired
+    private ClassBlockService classBlockService;
 
     @Test
     @DisplayName("Should Create MockMvc")
@@ -45,14 +50,11 @@ class ClassBlockControllerTest {
     @Test
     @DisplayName("Should get class block by id ")
     void shouldGetClassBlockById() throws Exception {
-        var id = 1L;
 
         this.mockMvc
-                .perform(MockMvcRequestBuilders.get("/classBlocks/" + id))
+                .perform(MockMvcRequestBuilders.get("/classBlocks?classBlockId=1"))
                 .andDo(print())
-                .andExpect(status().isOk())
-                .andExpect(jsonPath("$.id").value(id))
-                .andExpect(jsonPath("$.name").exists());
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -66,7 +68,7 @@ class ClassBlockControllerTest {
                                 {"name" : "name"}
                                 """))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
 
     }
 
@@ -88,25 +90,24 @@ class ClassBlockControllerTest {
     @Test
     @DisplayName("Should Patch Classes By Id")
     void shouldPatchClassesBlockById() throws Exception {
-        var id = 1L;
 
         this.mockMvc
-                .perform(patch("/classBlocks/" + id)
+                .perform(post("/classBlocks?classBlockId=1")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {"name" : "imie" }
                                 """))
                 .andDo(print())
-                .andExpect(status().isCreated());
+                .andExpect(status().isOk());
 
     }
 
     @Test
     @DisplayName("Should delete Classes Box by Id ")
-    void shouldDeleteClassesBoxById() throws Exception {
-        var id = 1L;
+    void shouldDeleteClassBlockById() throws Exception {
+
         this.mockMvc
-                .perform(delete("/classBlocks/" + id))
+                .perform(delete("/classBlocks?classBlockId=1"))
                 .andDo(print())
                 .andExpect(status().isOk());
 
