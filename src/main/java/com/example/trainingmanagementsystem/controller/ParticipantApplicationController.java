@@ -15,22 +15,22 @@ public class ParticipantApplicationController {
 
     ParticipantApplicationService applicationService;
 
-    @PostMapping("/ParticipantApplication")
+    @PostMapping("/participantApplication")
     public ParticipantApplication createParticipantApplication(@RequestParam("courseId") Long courseId,@RequestParam("personId") Long personId){
         return applicationService.createParticipantApplication(courseId, personId);
     }
 
-    @GetMapping("/ParticipantApplication")
+    @GetMapping("/participantApplication")
     public List<ParticipantApplication> getAllParticipantApplication(){
         return applicationService.getAllParticipantApplication();
     }
 
-    @GetMapping("/ParticipantApplication/{id}")
+    @GetMapping("/participantApplication/{id}")
     public ParticipantApplication getParticipantApplicationById(@PathVariable Long id){
         return applicationService.getParticipantApplicationById(id);
     }
 
-    @DeleteMapping("/ParticipantApplication/accept")
+    @DeleteMapping("/participantApplication/accept")
     public ResponseEntity<HttpStatus> acceptParticipantApplication(@RequestParam("applicationId")Long applicationId){
         return applicationService.acceptParticipantApplication(applicationId);
     }

@@ -23,7 +23,7 @@ public class Course {
     @Column(name = "NAME")
     private String name;
 
-    @OneToMany
+    @OneToMany(orphanRemoval = true, cascade = CascadeType.REMOVE)
     private List<ClassBlock> classBlockList = new LinkedList<>();
 
     @ManyToMany(mappedBy = "courseList")

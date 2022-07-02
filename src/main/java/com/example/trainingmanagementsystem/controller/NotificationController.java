@@ -16,7 +16,7 @@ public class NotificationController {
     NotificationService notificationService;
 
     @GetMapping("/notifications")
-    public List<Notification> getNotifications(@RequestBody Long id) {
+    public List<Notification> getAllNotifications() {
         return notificationService.getAll();
     }
 
@@ -26,12 +26,12 @@ public class NotificationController {
     }
 
     @PutMapping("/notifications/{id}")
-    public ResponseEntity<Notification> updateNotification(@PathVariable Long id, @RequestBody Notification notification){
+    public ResponseEntity<Notification> updateNotification(@PathVariable("id") Long id, @RequestBody Notification notification) {
         return notificationService.update(id, notification);
     }
 
     @DeleteMapping("/notifications/{id}")
-    public ResponseEntity<HttpStatus> deleteNotification(@PathVariable Long id){
+    public ResponseEntity<HttpStatus> deleteNotification(@PathVariable("id") Long id) {
         return notificationService.delete(id);
     }
 }

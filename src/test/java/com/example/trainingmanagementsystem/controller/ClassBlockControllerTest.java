@@ -1,6 +1,5 @@
 package com.example.trainingmanagementsystem.controller;
 
-import com.example.trainingmanagementsystem.service.ClassBlockService;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -24,9 +23,6 @@ class ClassBlockControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Autowired
-    private ClassBlockService classBlockService;
 
     @Test
     @DisplayName("Should Create MockMvc")
@@ -109,6 +105,12 @@ class ClassBlockControllerTest {
                 .perform(delete("/classBlocks?classBlockId=1"))
                 .andDo(print())
                 .andExpect(status().isOk());
+
+        /* TODO - why?whyyyyyyyyyyyyy???
+            log:
+            org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint ["FKvpqxtuay01bo3jtvv8uijs5c: PUBLIC.courses_class_block_list FOREIGN KEY(class_block_list_id) REFERENCES PUBLIC.class_block(id) (CAST(1 AS BIGINT))"; SQL statement:
+            delete from class_block where id=? [23503-214]]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement
+         */
     }
 }
 
