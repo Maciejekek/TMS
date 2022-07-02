@@ -1,39 +1,109 @@
 package com.example.trainingmanagementsystem.controller;
 
-import com.example.trainingmanagementsystem.Model.Classes;
-import com.example.trainingmanagementsystem.service.ClassesService;
+import org.hamcrest.Matchers;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
-import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.util.Date;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(MockitoExtension.class)
+@AutoConfigureMockMvc
+@SpringBootTest
 class ClassesControllerTest {
 
-//    private final static Classes CLASSES = new Classes(1L, "topic", new Date());
-//
-//    @Mock
-//    private ClassesService classesService;
-//
-//    @Test
-//    void getAllClasses() {
-//        classesService.findAll();
-//    }
-//
-//    @Test
-//    void postAddClasses() {
-//        classesService.getAddClass(CLASSES);
-//    }
-//
-//    @Test
-//    void patchClasses() {
-//        classesService.getEditClass(CLASSES);
-//    }
-//
-//    @Test
-//    void deleteClasses() {
-//        classesService.deleteClassById(CLASSES.getId());
-//    }
+    @Autowired
+    private MockMvc mockMvc;
+
+    @Test
+    @DisplayName("Should Create MockMvc")
+    void shouldCreateMockMvc() {
+        assertNotNull(mockMvc);
+    }
+
+    @Test
+    @DisplayName("Should get all Classes")
+    void shouldGetAllClasses() throws Exception {
+
+        this.mockMvc
+                .perform(MockMvcRequestBuilders.get("/classes"))
+                .andDo(print())
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.size()", Matchers.greaterThan(1)))
+                .andExpect(jsonPath("$[0].id").exists())
+                .andExpect(jsonPath("$[0].topic").exists());
+
+    }
+
+    @Test
+    @DisplayName("Should get classes by id")
+    void shouldGetClassesById() throws Exception {
+
+        this.mockMvc
+                .perform(MockMvcRequestBuilders.get("/classes/1"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    @DisplayName("Should add new  Class")
+    void shouldAddClasses() throws Exception {
+
+        this.mockMvc
+                .perform(MockMvcRequestBuilders.post("/classes")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "topic" : "topic"
+                                }
+                                """)
+
+                )
+                .andDo(print())
+                .andExpect(status().isOk());
+
+    }
+
+    @Test
+    @DisplayName("Should edit class by id")
+    void shouldEditClassesById() throws Exception {
+
+        this.mockMvc
+                .perform(MockMvcRequestBuilders.post("/classes?classesId=1")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "topic" : "newTopic"
+                                }
+                                """)
+                )
+
+                .andDo(print())
+                .andExpect(status().isOk());
+
+
+    }
+
+    @Test
+    @DisplayName("Should delete Class by Id")
+    void shouldDeleteClassesById() throws Exception {
+
+        this.mockMvc
+                .perform(MockMvcRequestBuilders.delete("/classes?classesId=1"))
+                .andDo(print())
+                .andExpect(status().isOk());
+    }
+    /* TODO - why?whyyyyyyyyyyyyy???
+        log:
+        org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint ["FKvpqxtuay01bo3jtvv8uijs5c: PUBLIC.courses_class_block_list FOREIGN KEY(class_block_list_id) REFERENCES PUBLIC.class_block(id) (CAST(1 AS BIGINT))"; SQL statement:
+        delete from class_block where id=? [23503-214]]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement
+         */
+
 }

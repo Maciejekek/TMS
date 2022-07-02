@@ -20,23 +20,24 @@ public class ClassesController {
     public List<Classes> getAllClasses(){
         return classesService.getAllClasses();
     }
+
     @GetMapping("/{id}")
-    public Classes getClassesById(@PathVariable Long id){
+    public Classes getClassesById(@PathVariable Long id) {
         return classesService.getClassesById(id);
     }
 
     @PostMapping
-    public Classes addClasses(@RequestBody Classes classes){
+    public Classes addClasses(@RequestBody Classes classes) {
         return classesService.addClasses(classes);
     }
 
-    @PatchMapping("/{id}")
-    public ResponseEntity<Classes> editClasses(@PathVariable Long id, @RequestBody Classes classes){
+    @PatchMapping
+    public ResponseEntity<Classes> editClasses(@RequestParam("classesId") Long id, @RequestBody Classes classes) {
         return classesService.editClasses(id, classes);
     }
 
-    @DeleteMapping("/{id}")
-    public ResponseEntity<HttpStatus> deleteClasses(@PathVariable Long id){
+    @DeleteMapping
+    public ResponseEntity<HttpStatus> deleteClasses(@RequestParam("classesId") Long id) {
         return classesService.delete(id);
     }
 

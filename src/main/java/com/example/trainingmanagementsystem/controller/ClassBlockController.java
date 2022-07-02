@@ -20,8 +20,8 @@ public class ClassBlockController {
         return classBlockService.findAll();
     }
 
-    @GetMapping("/")
-    public ClassBlock getClassBlockById(@RequestParam("classBlockId") Long id) {
+    @GetMapping("/{id}")
+    public ClassBlock getClassBlockById(@PathVariable("id") Long id) {
         return classBlockService.findById(id);
     }
 
@@ -30,17 +30,17 @@ public class ClassBlockController {
         return classBlockService.createClassBlock(classBlock);
     }
 
-    @PatchMapping("/")
+    @PatchMapping
     public ResponseEntity<ClassBlock> editClassBlock(@RequestParam("classBlockId") Long id, @RequestBody ClassBlock classBlock) {
         return classBlockService.editClassBlock(id, classBlock);
     }
 
-    @DeleteMapping("/")
+    @DeleteMapping
     public ResponseEntity<HttpStatus> deleteClassBlock(@RequestParam("classBlockId") Long id) {
         return classBlockService.deleteClassBlock(id);
     }
 
-    @PutMapping("/")
+    @PutMapping
     public ResponseEntity<ClassBlock> addClassInToClassBlock(@RequestParam("classBlockId") Long id, @RequestParam("classesId") Long classesId){
         return classBlockService.addClassesInBlock(id, classesId);
     }

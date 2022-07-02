@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -20,6 +21,7 @@ public class Notification {
     private Long id;
 
     @Column(name = "NOTIFICATION_DATE")
+    @DateTimeFormat(pattern = "yyyy-MM-DD")
     private Date date;
 
     @Column(name = "CLASS_NAME")
