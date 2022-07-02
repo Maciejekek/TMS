@@ -35,7 +35,7 @@ public class ParticipantApplicationController {
         return applicationService.acceptParticipantApplication(applicationId);
     }
 
-    @DeleteMapping("/ParticipantApplication/decline")
+    @DeleteMapping("/participantApplication/decline")
     public ResponseEntity<HttpStatus> declineParticipantApplication(@RequestParam("applicationId")Long applicationId){
         return applicationService.declineParticipantApplication(applicationId);
     }

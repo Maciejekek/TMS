@@ -23,7 +23,7 @@ class ParticipantApplicationControllerTest {
 
     @Test
     @DisplayName("Should create participant application ")
-    void createParticipantApplication() throws Exception {
+    void shouldCreateParticipantApplication() throws Exception {
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders.post("/participantApplication?courseId=1&personId=1")
@@ -35,7 +35,7 @@ class ParticipantApplicationControllerTest {
 
     @Test
     @DisplayName("Should get all participant application")
-    void getAllParticipantApplication() throws Exception {
+    void shouldGetAllParticipantApplication() throws Exception {
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders.get("/participantApplication")
@@ -51,29 +51,34 @@ class ParticipantApplicationControllerTest {
 
     @Test
     @DisplayName("Should get Participant Application By Id ")
-    void getParticipantApplicationById() throws Exception {
+    void shouldGetParticipantApplicationById() throws Exception {
 
         this.mockMvc
-                .perform(MockMvcRequestBuilders.get("/participantApplication/0")
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                "personId" : "1"
-                                "courseId" : "1"
-                                }
-                                """))
+                .perform(MockMvcRequestBuilders.get("/participantApplication/1")
+                        .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-//                .andExpect(jsonPath("$.id").doesNotExist())
-//                .andExpect(jsonPath("$.courseId").value(1))
-//                .andExpect(jsonPath("$.personId").value(1))
                 .andExpect(status().is2xxSuccessful());
     }
 
     @Test
-    void acceptParticipantApplication() {
+    @DisplayName("Should accept participant application")
+    void shouldAcceptParticipantApplication() throws Exception {
+
+        this.mockMvc
+                .perform(MockMvcRequestBuilders.delete("/participantApplication/accept?applicationId=1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful());
     }
 
     @Test
-    void declineParticipantApplication() {
+    @DisplayName("Should decline participant application")
+    void shouldDeclineParticipantApplication() throws Exception {
+
+        this.mockMvc
+                .perform(MockMvcRequestBuilders.delete("/participantApplication/decline?applicationId=1")
+                        .contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andExpect(status().is2xxSuccessful());
     }
 }

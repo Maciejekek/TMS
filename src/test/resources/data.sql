@@ -7,6 +7,8 @@ values ('test');
 insert into courses(name)
 values ('java');
 
+insert into participant_application(course_id, person_id)
+VALUES (1, 1);
 
 -- insert into class_block_classes_list(class_block_id,classes_list_id ) values (1,1);
 --
