@@ -1,5 +1,7 @@
 package com.example.trainingmanagementsystem.controller;
 
+import com.example.trainingmanagementsystem.Model.Notification;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -21,6 +24,14 @@ class NotificationControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Test
     @DisplayName("Should Create MockMvc")
@@ -44,48 +55,41 @@ class NotificationControllerTest {
                 .andExpect(jsonPath("$[0].description").doesNotExist());
     }
 
-    //TODO - check later
+    //TODO - detached entity passed to persist
     @Test
     @DisplayName("Should create Notification")
     void shouldCreateNotification() throws Exception {
 
-        this.mockMvc
-                .perform(MockMvcRequestBuilders.post("/notifications?courseId=1")
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/notifications?courseId=1")
+                        .content(asJsonString(new Notification(1L, null, "className", "des")))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                "className" : "class1"
-                                "date" : "2015-01-01"
-                                "description" : "des1"
-                                }
-                                """)
-                )
-                .andDo(print())
-                .andExpect(status().is2xxSuccessful());
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isCreated())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.className").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.description").exists());
 
     }
 
-    //TODO - check later2
     @Test
     @DisplayName("Should update notification")
     void shouldUpdateNotification() throws Exception {
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders.put("/notifications/1")
+                        .content(asJsonString(new Notification(1L, null, "className", "des")))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                "date" : "2015-01-01"
-                                "className" : "class1"
-                                "description" : "des1"
-                                }
-                                """)
-                )
+                        .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.className").exists())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.description").exists());
+
+
     }
 
-    //TODO - check later3
     @Test
     @DisplayName("Should delete notification")
     void shouldDeleteNotification() throws Exception {
@@ -94,6 +98,6 @@ class NotificationControllerTest {
                 .perform(MockMvcRequestBuilders.delete("/notifications/1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().is2xxSuccessful());
     }
 }

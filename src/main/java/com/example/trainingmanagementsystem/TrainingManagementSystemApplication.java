@@ -1,11 +1,11 @@
 package com.example.trainingmanagementsystem;
 
-import com.example.trainingmanagementsystem.Model.*;
+import com.example.trainingmanagementsystem.Model.ClassBlock;
+import com.example.trainingmanagementsystem.Model.Classes;
+import com.example.trainingmanagementsystem.Model.Person;
+import com.example.trainingmanagementsystem.Model.PersonAccountData;
 import com.example.trainingmanagementsystem.dto.CourseRequest;
-import com.example.trainingmanagementsystem.service.ClassBlockService;
-import com.example.trainingmanagementsystem.service.ClassesService;
-import com.example.trainingmanagementsystem.service.CourseService;
-import com.example.trainingmanagementsystem.service.PersonService;
+import com.example.trainingmanagementsystem.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -30,9 +30,12 @@ public class TrainingManagementSystemApplication implements CommandLineRunner {
     @Autowired
     ClassesService classesService;
 
+    @Autowired
+    NotificationService notificationService;
+
     @Override
     @Transactional
-    public void run(String... args) throws Exception{
+    public void run(String... args) throws Exception {
 
         Person person1 = new Person();
         person1.setName("Tomasz");

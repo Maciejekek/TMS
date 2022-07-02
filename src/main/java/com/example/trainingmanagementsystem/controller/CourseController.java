@@ -49,28 +49,28 @@ public class CourseController {
         return service.addBlockInToCourse(courseId, blockId);
     }
 
-    @PutMapping("/course/addperson")
-    public ResponseEntity<Course> addPersonInToCourse(@RequestParam("courseId") Long id, @RequestParam("personId") Long personId){
+    @PostMapping("/course/addPerson")
+    public ResponseEntity<Course> addPersonInToCourse(@RequestParam("courseId") Long id, @RequestParam("personId") Long personId) {
         return service.addPersonInToCourse(id, personId);
     }
 
     @PatchMapping("/course/edit")
-    public ResponseEntity<Course> editCourse(@RequestParam("courseId") Long id, @RequestBody Course course){
+    public ResponseEntity<Course> editCourse(@RequestParam("courseId") Long id, @RequestBody Course course) {
         return service.editCourse(id, course);
     }
 
-    @DeleteMapping("/course/deleteperson")
-    public ResponseEntity<HttpStatus> deletePersonFromCourse(@RequestParam("course") Long id, @RequestParam("personId") Long personId){
+    @DeleteMapping("/course/deletePerson")
+    public ResponseEntity<HttpStatus> deletePersonFromCourse(@RequestParam("courseId") Long id, @RequestParam("personId") Long personId) {
         return service.deletePersonFromCourse(id, personId);
     }
 
-    @DeleteMapping("/course/deleteblock")
-    public ResponseEntity<HttpStatus> deleteBlockFromCourse(@RequestParam("course") Long id, @RequestParam("blockId") Long blockId){
+    @DeleteMapping("/course/deleteBlock")
+    public ResponseEntity<HttpStatus> deleteBlockFromCourse(@RequestParam("courseId") Long id, @RequestParam("blockId") Long blockId) {
         return service.deleteBlockFromCourse(id, blockId);
     }
 
     @DeleteMapping("/course")
-    public ResponseEntity<HttpStatus> deleteCourse(@RequestParam("course")Long id){
+    public ResponseEntity<HttpStatus> deleteCourse(@RequestParam("courseId") Long id) {
         return service.deleteCourse(id);
     }
 

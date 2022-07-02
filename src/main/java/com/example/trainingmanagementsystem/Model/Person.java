@@ -26,7 +26,7 @@ public class Person {
     @Column(name = "LAST_NAME")
     private String lastName;
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<PersonNotification> notificationList = new LinkedList<>();
 
     @ManyToMany

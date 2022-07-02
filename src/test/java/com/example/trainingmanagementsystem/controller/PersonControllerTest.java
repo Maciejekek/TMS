@@ -1,5 +1,6 @@
 package com.example.trainingmanagementsystem.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,6 +21,14 @@ class PersonControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 
     @Test
     @DisplayName("Should get all person")
@@ -81,33 +90,13 @@ class PersonControllerTest {
         this.mockMvc
                 .perform(MockMvcRequestBuilders.post("/persons/account")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                "login" : "login"
-                                "password" : "password"
-                                "authToken : "token"
-                                "email" : "email"
-                                "type" : "type"
-                                "isActive" : "true" 
-                                }
-                                """))
+                        .content()
+                )
+
                 .andDo(print())
                 .andExpect(status().isOk());
     }
 
-
-//    @Test
-//public void createEmployeeAPI() throws Exception
-//{
-//  mvc.perform( MockMvcRequestBuilders
-//      .post("/employees")
-//      .content(asJsonString(new EmployeeVO(null, "firstName4", "lastName4", "email4@mail.com")))
-//      .contentType(MediaType.APPLICATION_JSON)
-//      .accept(MediaType.APPLICATION_JSON))
-//      .andExpect(status().isCreated())
-//      .andExpect(MockMvcResultMatchers.jsonPath("$.employeeId").exists());
-//}
-//
 
     @Test
     void createPerson() {
