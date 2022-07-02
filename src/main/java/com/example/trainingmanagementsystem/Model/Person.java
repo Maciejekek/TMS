@@ -1,6 +1,5 @@
 package com.example.trainingmanagementsystem.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,26 +9,31 @@ import javax.persistence.*;
 import java.util.LinkedList;
 import java.util.List;
 
-@Entity(name = "courses")
+@Entity(name = "persons")
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Course {
+public class Person {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "NAME")
     private String name;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.REMOVE)
-    private List<ClassBlock> classBlockList = new LinkedList<>();
-
-    @ManyToMany(mappedBy = "courseList")
-    @JsonIgnore
-    private List<Person> personList = new LinkedList<>();
+    @Column(name = "LAST_NAME")
+    private String lastName;
 
     @OneToMany
-    private List<Notification> notificationsList = new LinkedList<>();
+    private List<PersonNotification> notificationList = new LinkedList<>();
+
+    @ManyToMany
+    @JoinTable(
+            name = "person_courses",
+            joinColumns = @JoinColumn(name = "personList_id"),
+            inverseJoinColumns = @JoinColumn(name = "courseList_id")
+    )
+    List<Course> courseList = new LinkedList<>();
 }
