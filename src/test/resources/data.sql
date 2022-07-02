@@ -16,6 +16,9 @@ VALUES ('nameNotifi', '2019-02-01', 'des');
 insert into person_account_data(login, password, auth_token, email, type, is_active)
 VALUES ('login', 'password', 'token', 'email', 'type', true);
 
+INSERT INTO persons(last_name, name)
+VALUES ('Magda', 'Magda')
+
 
 -- insert into class_block_classes_list(class_block_id,classes_list_id ) values (1,1);
 --

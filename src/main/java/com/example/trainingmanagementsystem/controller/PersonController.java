@@ -57,7 +57,7 @@ public class PersonController {
         return personService.editPersonAccountData(id, personAccountData);
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/{accountId}")
     public ResponseEntity<HttpStatus> deletePerson(@PathVariable Long accountId) {
         return personService.deletePerson(accountId);
     }
