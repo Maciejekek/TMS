@@ -1,7 +1,6 @@
 package com.example.trainingmanagementsystem.controller;
 
 import com.example.trainingmanagementsystem.Model.Course;
-import com.example.trainingmanagementsystem.Model.Person;
 import com.example.trainingmanagementsystem.dto.CoursePersonListRequest;
 import com.example.trainingmanagementsystem.dto.CoursePersonListResponse;
 import com.example.trainingmanagementsystem.dto.CourseRequest;
@@ -36,7 +35,7 @@ public class CourseController {
     }
 
     @GetMapping("/course/{courseId}")
-    public Course getCourseById(@PathVariable Long courseId){
+    public CourseResponse getCourseById(@PathVariable Long courseId){
         return service.getCourseById(courseId);
     }
 

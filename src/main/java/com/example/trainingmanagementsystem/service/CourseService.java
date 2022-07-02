@@ -55,10 +55,11 @@ public class CourseService {
         return modelMapper.map(classes , ClassesDTO.class);
     }
 
-    public Course getCourseById(Long courseId) {
-        return courseRepository
+    public CourseResponse getCourseById(Long courseId) {
+        var course = courseRepository
                 .findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
+        return convertToDTO(course);
     }
 
     public List<Course> getCourseByPerson(Long id){
