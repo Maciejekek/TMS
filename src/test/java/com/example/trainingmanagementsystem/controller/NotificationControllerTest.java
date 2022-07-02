@@ -42,7 +42,6 @@ class NotificationControllerTest {
                 .andExpect(jsonPath("$[0].id").doesNotExist())
                 .andExpect(jsonPath("$[0].className").doesNotExist())
                 .andExpect(jsonPath("$[0].description").doesNotExist());
-
     }
 
     //TODO - check later
@@ -55,8 +54,8 @@ class NotificationControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                "date" : "2015-01-01"
                                 "className" : "class1"
+                                "date" : "2015-01-01"
                                 "description" : "des1"
                                 }
                                 """)
@@ -89,7 +88,7 @@ class NotificationControllerTest {
     //TODO - check later3
     @Test
     @DisplayName("Should delete notification")
-    void deleteNotification() throws Exception {
+    void shouldDeleteNotification() throws Exception {
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders.delete("/notifications/1")

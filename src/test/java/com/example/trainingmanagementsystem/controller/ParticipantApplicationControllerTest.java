@@ -26,8 +26,14 @@ class ParticipantApplicationControllerTest {
     void shouldCreateParticipantApplication() throws Exception {
 
         this.mockMvc
-                .perform(MockMvcRequestBuilders.post("/participantApplication?courseId=1&personId=1")
-                        .contentType(MediaType.APPLICATION_JSON))
+                .perform(MockMvcRequestBuilders.post("/participantApplication")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "personId" : "1"
+                                "courseId" : "1"
+                                }
+                                """))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
 
@@ -81,4 +87,6 @@ class ParticipantApplicationControllerTest {
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
     }
+
+
 }
