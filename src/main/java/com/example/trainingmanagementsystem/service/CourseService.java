@@ -1,6 +1,10 @@
 package com.example.trainingmanagementsystem.service;
 
 import com.example.trainingmanagementsystem.Model.*;
+import com.example.trainingmanagementsystem.dto.CoursePersonListRequest;
+import com.example.trainingmanagementsystem.dto.CoursePersonListResponse;
+import com.example.trainingmanagementsystem.dto.CourseRequest;
+import com.example.trainingmanagementsystem.dto.PersonDTO;
 import com.example.trainingmanagementsystem.exceptions.ResourceNotFoundException;
 import com.example.trainingmanagementsystem.repository.ClassBlockRepository;
 import com.example.trainingmanagementsystem.repository.CourseRepository;
@@ -10,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.LinkedList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -30,7 +35,7 @@ public class CourseService {
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
     }
 
-    public List<Course> getCourseByPersonId(Long id){
+    public List<Course> getCourseByPerson(Long id){
         return personRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Person with id:" + id + "not exist"))
@@ -120,7 +125,9 @@ public class CourseService {
         return ResponseEntity.ok(updateCourse);
     }
 
-    public Course addCourse(Course course) {
+    public Course addCourse(CourseRequest courseRequest) {
+        Course course = new Course();
+        course.setName(courseRequest.getName());
         return courseRepository.save(course);
     }
 
@@ -141,10 +148,15 @@ public class CourseService {
         courseRepository.save(course);
     }
 
-    public List<Person> getCoursePersonList(Long courseId) {
-        return courseRepository
-                .findById(courseId)
-                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"))
-                .getPersonList();
+    public CoursePersonListResponse getCoursePersonList(CoursePersonListRequest coursePersonListRequest) {
+        var cos = courseRepository.findByName(coursePersonListRequest.getName()).getPersonList();
+        List<PersonDTO> listPersonDTO = new LinkedList<>();
+        for (Person person: cos) {
+            PersonDTO personDTO = new PersonDTO(
+                    person.getName(), person.getLastName()
+            );
+            listPersonDTO.add(personDTO);
+        }
+        return new CoursePersonListResponse(listPersonDTO);
     }
 }

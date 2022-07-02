@@ -22,7 +22,7 @@ public class ClassBlockService {
         return classBlockRepository.findAll();
     }
 
-    public ClassBlock addClassBlock(ClassBlock classBlock) {
+    public ClassBlock createClassBlock(ClassBlock classBlock) {
         return classBlockRepository.save(classBlock);
     }
 

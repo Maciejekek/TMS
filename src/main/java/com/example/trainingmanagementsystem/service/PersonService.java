@@ -62,6 +62,7 @@ public class PersonService {
         dataUpdate.setPassword(personAccountData.getPassword());
         dataUpdate.setType(personAccountData.getType());
         dataUpdate.setIsActive(personAccountData.getIsActive());
+        dataUpdate.setEmail(personAccountData.getEmail());
 
         dataRepository.save(dataUpdate);
 

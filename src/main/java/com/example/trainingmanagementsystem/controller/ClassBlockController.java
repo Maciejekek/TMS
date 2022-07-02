@@ -26,8 +26,8 @@ public class ClassBlockController {
     }
 
     @PostMapping
-    public ClassBlock addClassBlock(@RequestBody ClassBlock classBlock) {
-        return classBlockService.addClassBlock(classBlock);
+    public ClassBlock createClassBlock(@RequestBody ClassBlock classBlock) {
+        return classBlockService.createClassBlock(classBlock);
     }
 
     @PatchMapping("/")

@@ -1,6 +1,7 @@
 package com.example.trainingmanagementsystem;
 
 import com.example.trainingmanagementsystem.Model.*;
+import com.example.trainingmanagementsystem.dto.CourseRequest;
 import com.example.trainingmanagementsystem.service.ClassBlockService;
 import com.example.trainingmanagementsystem.service.ClassesService;
 import com.example.trainingmanagementsystem.service.CourseService;
@@ -93,18 +94,17 @@ public class TrainingManagementSystemApplication implements CommandLineRunner {
 
         ClassBlock classBlock1 = new ClassBlock();
         classBlock1.setName("Podstawy");
-        classBlockService.addClassBlock(classBlock1);
+        classBlockService.createClassBlock(classBlock1);
 
         ClassBlock classBlock2 = new ClassBlock();
         classBlock2.setName("Zawansowane");
-        classBlockService.addClassBlock(classBlock2);
+        classBlockService.createClassBlock(classBlock2);
 
         classBlockService.addClassesInBlock(1L, 1L);
         classBlockService.addClassesInBlock(1L, 2L);
 
-        Course course1 = new Course();
-        course1.setName("Java");
-        courseService.addCourse(course1);
+        CourseRequest courseRequest = new CourseRequest("Java");
+        courseService.addCourse(courseRequest);
         courseService.addPersonInToCourse(1L, 1L);
         courseService.addPersonInToCourse(1L, 2L);
         courseService.addPersonInToCourse(1L, 3L);

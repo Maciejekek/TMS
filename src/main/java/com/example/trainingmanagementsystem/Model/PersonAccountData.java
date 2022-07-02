@@ -6,6 +6,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 @Getter
@@ -19,13 +22,21 @@ public class PersonAccountData {
     private Long id;
 
     @OneToOne
-    private Person person = new Person();
+    private Person person;
 
     @Column(name = "LOGIN")
+    @NotBlank
     private String login;
 
     @Column(name = "PASSWORD")
+    @NotBlank
     private String password;
+
+    private String authToken;
+
+    @Email
+    @NotEmpty
+    private String email;
 
     @Column(name = "TYPE")
     private String type;

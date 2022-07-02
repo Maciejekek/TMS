@@ -2,6 +2,10 @@ package com.example.trainingmanagementsystem.controller;
 
 import com.example.trainingmanagementsystem.Model.Course;
 import com.example.trainingmanagementsystem.Model.Person;
+import com.example.trainingmanagementsystem.dto.CoursePersonListRequest;
+import com.example.trainingmanagementsystem.dto.CoursePersonListResponse;
+import com.example.trainingmanagementsystem.dto.CourseRequest;
+import com.example.trainingmanagementsystem.dto.CourseResponse;
 import com.example.trainingmanagementsystem.service.CourseService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -17,8 +21,8 @@ public class CourseController {
     CourseService service;
 
     @PostMapping
-    public Course addCourse(@RequestBody Course course){
-        return service.addCourse(course);
+    public Course addCourse(@RequestBody CourseRequest courseRequest){
+        return service.addCourse(courseRequest);
     }
 
     @GetMapping("/course")
@@ -27,8 +31,8 @@ public class CourseController {
     }
 
     @GetMapping("/course/")
-    public List<Course> getCourseByPersonId(@RequestParam("personId") Long id){
-        return service.getCourseByPersonId(id);
+    public List<Course> getCourseByPerson(@RequestParam("personId") Long id){
+        return service.getCourseByPerson(id);
     }
 
     @GetMapping("/course/{courseId}")
@@ -37,8 +41,8 @@ public class CourseController {
     }
 
     @GetMapping("/course/personList")
-    public List<Person> getCoursePersonList(@RequestParam("courseId") Long courseId){
-        return service.getCoursePersonList(courseId);
+    public CoursePersonListResponse getCoursePersonList(@RequestBody CoursePersonListRequest coursePersonListRequest){
+        return service.getCoursePersonList(coursePersonListRequest);
     }
 
     @PutMapping("/course/")
