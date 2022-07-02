@@ -37,8 +37,8 @@ public class ClassesController {
     }
 
     @DeleteMapping
-    public ResponseEntity<HttpStatus> deleteClasses(@RequestParam("classesId") Long id) {
-        return classesService.delete(id);
+    public ResponseEntity<HttpStatus> deleteClasses(@RequestParam("classesId") Long id, @RequestParam("blockId") Long blockId) {
+        return classesService.delete(id, blockId);
     }
 
 }

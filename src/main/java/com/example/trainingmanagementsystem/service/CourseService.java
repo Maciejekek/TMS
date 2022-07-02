@@ -1,21 +1,20 @@
 package com.example.trainingmanagementsystem.service;
 
 import com.example.trainingmanagementsystem.Model.*;
-import com.example.trainingmanagementsystem.dto.CoursePersonListRequest;
-import com.example.trainingmanagementsystem.dto.CoursePersonListResponse;
-import com.example.trainingmanagementsystem.dto.CourseRequest;
-import com.example.trainingmanagementsystem.dto.PersonDTO;
+import com.example.trainingmanagementsystem.dto.*;
 import com.example.trainingmanagementsystem.exceptions.ResourceNotFoundException;
 import com.example.trainingmanagementsystem.repository.ClassBlockRepository;
 import com.example.trainingmanagementsystem.repository.CourseRepository;
 import com.example.trainingmanagementsystem.repository.PersonRepository;
 import lombok.AllArgsConstructor;
+import org.modelmapper.ModelMapper;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Service
@@ -24,11 +23,36 @@ public class CourseService {
     CourseRepository courseRepository;
     PersonRepository personRepository;
     ClassBlockRepository blockRepository;
-
     ClassBlockService blockService;
+    ModelMapper modelMapper;
 
-    public List<Course> findAllCourses(){
-        return courseRepository.findAll();
+    public List<CourseResponse> findAllCourses(){
+        return courseRepository.findAll()
+                .stream()
+                .map(this::convertToDTO)
+                .collect(Collectors.toList());
+    }
+
+    private CourseResponse convertToDTO(Course course){
+        List<ClassBlocksDTO> blocksDTO = course.getClassBlockList()
+                .stream()
+                .map(this::convertClassBlock)
+                .collect(Collectors.toList());
+        CourseResponse response = modelMapper.map(course, CourseResponse.class);
+        response.setClassBlocksList(blocksDTO);
+        return response;
+    }
+    public ClassBlocksDTO convertClassBlock(ClassBlock block){
+        List<ClassesDTO> classesDTO = block.getClassesList()
+                .stream()
+                .map(this::convertClasses)
+                .collect(Collectors.toList());
+        ClassBlocksDTO blocksDTO = modelMapper.map(block, ClassBlocksDTO.class);
+        blocksDTO.setClassesList(classesDTO);
+        return blocksDTO;
+    }
+    public ClassesDTO convertClasses(Classes classes){
+        return modelMapper.map(classes , ClassesDTO.class);
     }
 
     public Course getCourseById(Long courseId) {

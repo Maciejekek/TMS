@@ -10,7 +10,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class ClassesDTO {
 
-    String name;
+    String topic;
 
     LocalDate date;
 }

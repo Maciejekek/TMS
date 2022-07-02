@@ -19,7 +19,6 @@ public class ClassBlockService {
 
     ClassBlockRepository classBlockRepository;
     ClassesRepository classesRepository;
-    ClassesService classesService;
     CourseRepository courseRepository;
 
     public List<ClassBlock> findAll() {
