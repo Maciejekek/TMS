@@ -12,13 +12,13 @@ import java.util.Date;
 @ExtendWith(MockitoExtension.class)
 class NotificationControllerTest {
 
-    private static final Notification NOTIFICATION = new Notification(1L, new Date(), "className", "des");
-
-    @Mock
-    private NotificationService notificationService;
-
-    @Test
-    void getNotifications() {
-        notificationService.getAll(NOTIFICATION.getId());
-    }
+//    private static final Notification NOTIFICATION = new Notification(1L, new Date(), "className", "des");
+//
+//    @Mock
+//    private NotificationService notificationService;
+//
+//    @Test
+//    void getNotifications() {
+//        notificationService.getAll(NOTIFICATION.getId());
+//    }
 }

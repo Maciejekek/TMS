@@ -7,7 +7,7 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
-import java.util.Date;
+import java.time.LocalDate;
 
 @Entity
 @Getter
@@ -19,9 +19,11 @@ public class Classes {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "TOPIC")
     private String topic;
+
     @Column(name = "DATE")
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE, pattern = "yyyy-MM-dd")
-    private Date date;
+    private LocalDate date;
 }
