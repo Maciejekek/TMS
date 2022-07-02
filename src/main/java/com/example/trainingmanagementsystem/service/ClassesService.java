@@ -2,11 +2,9 @@ package com.example.trainingmanagementsystem.service;
 
 import com.example.trainingmanagementsystem.Model.ClassBlock;
 import com.example.trainingmanagementsystem.Model.Classes;
-import com.example.trainingmanagementsystem.Model.Course;
 import com.example.trainingmanagementsystem.exceptions.ResourceNotFoundException;
 import com.example.trainingmanagementsystem.repository.ClassBlockRepository;
 import com.example.trainingmanagementsystem.repository.ClassesRepository;
-import com.example.trainingmanagementsystem.repository.CourseRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

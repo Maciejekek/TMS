@@ -35,7 +35,7 @@ public class CourseController {
     }
 
     @GetMapping("/course/{courseId}")
-    public Course getCourseById(@PathVariable Long courseId){
+    public CourseResponse getCourseById(@PathVariable Long courseId){
         return service.getCourseById(courseId);
     }
 
