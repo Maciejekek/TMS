@@ -29,13 +29,12 @@ class CourseControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", Matchers.greaterThan(1)))
-                .andExpect(jsonPath("$[0].id").exists())
                 .andExpect(jsonPath("$[0].name").exists());
     }
 
     @Test
     @DisplayName("Should add new course")
-    void ShouldAddNewCourse() throws Exception {
+    void shouldAddNewCourse() throws Exception {
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders.post("/course")

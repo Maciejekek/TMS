@@ -26,14 +26,14 @@ public class CourseService {
     ClassBlockService blockService;
     ModelMapper modelMapper;
 
-    public List<CourseResponse> findAllCourses(){
+    public List<CourseResponse> findAllCourses() {
         return courseRepository.findAll()
                 .stream()
                 .map(this::convertToDTO)
                 .collect(Collectors.toList());
     }
 
-    private CourseResponse convertToDTO(Course course){
+    private CourseResponse convertToDTO(Course course) {
         List<ClassBlocksDTO> blocksDTO = course.getClassBlockList()
                 .stream()
                 .map(this::convertClassBlock)
@@ -42,7 +42,8 @@ public class CourseService {
         response.setClassBlocksList(blocksDTO);
         return response;
     }
-    public ClassBlocksDTO convertClassBlock(ClassBlock block){
+
+    public ClassBlocksDTO convertClassBlock(ClassBlock block) {
         List<ClassesDTO> classesDTO = block.getClassesList()
                 .stream()
                 .map(this::convertClasses)
@@ -51,42 +52,43 @@ public class CourseService {
         blocksDTO.setClassesList(classesDTO);
         return blocksDTO;
     }
-    public ClassesDTO convertClasses(Classes classes){
-        return modelMapper.map(classes , ClassesDTO.class);
+
+    public ClassesDTO convertClasses(Classes classes) {
+        return modelMapper.map(classes, ClassesDTO.class);
     }
 
     public Course getCourseById(Long courseId) {
         return courseRepository
                 .findById(courseId)
-                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course with id:" + courseId + "not exist"));
     }
 
-    public List<Course> getCourseByPerson(Long id){
+    public List<Course> getCourseByPerson(Long id) {
         return personRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Person with id:" + id + "not exist"))
                 .getCourseList();
     }
 
-    public ResponseEntity<Course> addBlockInToCourse(Long courseId, Long blockId){
+    public ResponseEntity<Course> addBlockInToCourse(Long courseId, Long blockId) {
         Course updateCourse = courseRepository
                 .findById(courseId)
-                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course with id:" + courseId + "not exist"));
         ClassBlock classBlock = blockRepository
                 .findById(blockId)
-                .orElseThrow(() -> new ResourceNotFoundException("Class Block with id:"+ blockId + "not exist"));
+                .orElseThrow(() -> new ResourceNotFoundException("Class Block with id:" + blockId + "not exist"));
         updateCourse.getClassBlockList().add(classBlock);
         courseRepository.save(updateCourse);
         return ResponseEntity.ok(updateCourse);
     }
 
-    public ResponseEntity<Course> addPersonInToCourse(Long courseId, Long PersonId){
+    public ResponseEntity<Course> addPersonInToCourse(Long courseId, Long PersonId) {
         Course updateCourse = courseRepository
                 .findById(courseId)
-                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course with id:" + courseId + "not exist"));
         Person person = personRepository
                 .findById(PersonId)
-                .orElseThrow(() -> new ResourceNotFoundException("Person with id:"+ PersonId + "not exist"));
+                .orElseThrow(() -> new ResourceNotFoundException("Person with id:" + PersonId + "not exist"));
 
         updateCourse.getPersonList().add(person);
         person.getCourseList().add(updateCourse);
@@ -95,10 +97,10 @@ public class CourseService {
         return ResponseEntity.ok(updateCourse);
     }
 
-    public ResponseEntity<HttpStatus> deleteCourse(Long courseId){
+    public ResponseEntity<HttpStatus> deleteCourse(Long courseId) {
         Course course = courseRepository
                 .findById(courseId)
-                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course with id:" + courseId + "not exist"));
 
         course.getClassBlockList().forEach(classBlock -> blockService.deleteClassBlock(classBlock.getId(), courseId));
         course.getPersonList().forEach(n -> course.getPersonList().remove(n));
@@ -108,10 +110,10 @@ public class CourseService {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity<HttpStatus> deleteBlockFromCourse(Long courseId, Long blockId){
+    public ResponseEntity<HttpStatus> deleteBlockFromCourse(Long courseId, Long blockId) {
         Course course = courseRepository
                 .findById(courseId)
-                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course with id:" + courseId + "not exist"));
 
         var optionalClassBlock = course.getClassBlockList()
                 .stream()
@@ -125,10 +127,10 @@ public class CourseService {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-    public ResponseEntity<HttpStatus> deletePersonFromCourse(Long courseId, Long personId){
+    public ResponseEntity<HttpStatus> deletePersonFromCourse(Long courseId, Long personId) {
         Course course = courseRepository
                 .findById(courseId)
-                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course with id:" + courseId + "not exist"));
 
         var optionalPerson = course.getPersonList()
                 .stream()
@@ -147,7 +149,7 @@ public class CourseService {
     public ResponseEntity<Course> editCourse(Long courseId, Course course) {
         Course updateCourse = courseRepository
                 .findById(courseId)
-                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course with id:" + courseId + "not exist"));
 
         updateCourse.setName(course.getName());
 
@@ -166,7 +168,7 @@ public class CourseService {
 
         Course course = courseRepository
                 .findById(courseId)
-                .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
+                .orElseThrow(() -> new ResourceNotFoundException("Course with id:" + courseId + "not exist"));
 
         course.getNotificationsList().add(notification);
 
@@ -182,7 +184,7 @@ public class CourseService {
     public CoursePersonListResponse getCoursePersonList(CoursePersonListRequest coursePersonListRequest) {
         var cos = courseRepository.findByName(coursePersonListRequest.getName()).getPersonList();
         List<PersonDTO> listPersonDTO = new LinkedList<>();
-        for (Person person: cos) {
+        for (Person person : cos) {
             PersonDTO personDTO = new PersonDTO(
                     person.getName(), person.getLastName()
             );

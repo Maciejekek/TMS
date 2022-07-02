@@ -96,14 +96,9 @@ class ClassesControllerTest {
     void shouldDeleteClassesById() throws Exception {
 
         this.mockMvc
-                .perform(MockMvcRequestBuilders.delete("/classes?classesId=1"))
+                .perform(MockMvcRequestBuilders.delete("/classes?classesId=1&blockId=1"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().isNoContent());
     }
-    /* TODO - why?whyyyyyyyyyyyyy???
-        log:
-        org.springframework.web.util.NestedServletException: Request processing failed; nested exception is org.springframework.dao.DataIntegrityViolationException: could not execute statement; SQL [n/a]; constraint ["FKvpqxtuay01bo3jtvv8uijs5c: PUBLIC.courses_class_block_list FOREIGN KEY(class_block_list_id) REFERENCES PUBLIC.class_block(id) (CAST(1 AS BIGINT))"; SQL statement:
-        delete from class_block where id=? [23503-214]]; nested exception is org.hibernate.exception.ConstraintViolationException: could not execute statement
-         */
 
 }

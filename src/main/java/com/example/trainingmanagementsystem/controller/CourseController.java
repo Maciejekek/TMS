@@ -1,7 +1,6 @@
 package com.example.trainingmanagementsystem.controller;
 
 import com.example.trainingmanagementsystem.Model.Course;
-import com.example.trainingmanagementsystem.Model.Person;
 import com.example.trainingmanagementsystem.dto.CoursePersonListRequest;
 import com.example.trainingmanagementsystem.dto.CoursePersonListResponse;
 import com.example.trainingmanagementsystem.dto.CourseRequest;
@@ -20,7 +19,7 @@ public class CourseController {
 
     CourseService service;
 
-    @PostMapping
+    @PostMapping("/course")
     public Course addCourse(@RequestBody CourseRequest courseRequest){
         return service.addCourse(courseRequest);
     }
