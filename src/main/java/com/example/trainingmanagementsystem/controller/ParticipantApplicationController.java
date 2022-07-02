@@ -1,6 +1,7 @@
 package com.example.trainingmanagementsystem.controller;
 
 import com.example.trainingmanagementsystem.Model.ParticipantApplication;
+import com.example.trainingmanagementsystem.dto.ParticipantApplicationRequest;
 import com.example.trainingmanagementsystem.service.ParticipantApplicationService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -16,8 +17,8 @@ public class ParticipantApplicationController {
     ParticipantApplicationService applicationService;
 
     @PostMapping("/participantApplication")
-    public ParticipantApplication createParticipantApplication(@RequestParam("courseId") Long courseId,@RequestParam("personId") Long personId){
-        return applicationService.createParticipantApplication(courseId, personId);
+    public ParticipantApplication createParticipantApplication(@RequestBody ParticipantApplicationRequest participantApplicationRequest){
+        return applicationService.createParticipantApplication(participantApplicationRequest);
     }
 
     @GetMapping("/participantApplication")

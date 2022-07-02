@@ -36,8 +36,8 @@ public class ClassBlockController {
     }
 
     @DeleteMapping
-    public ResponseEntity<HttpStatus> deleteClassBlock(@RequestParam("classBlockId") Long id) {
-        return classBlockService.deleteClassBlock(id);
+    public ResponseEntity<HttpStatus> deleteClassBlock(@RequestParam("classBlockId") Long id,@RequestParam("courseId")Long courseId) {
+        return classBlockService.deleteClassBlock(id, courseId);
     }
 
     @PutMapping

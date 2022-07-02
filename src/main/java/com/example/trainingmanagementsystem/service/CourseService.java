@@ -25,6 +25,8 @@ public class CourseService {
     PersonRepository personRepository;
     ClassBlockRepository blockRepository;
 
+    ClassBlockService blockService;
+
     public List<Course> findAllCourses(){
         return courseRepository.findAll();
     }
@@ -73,6 +75,11 @@ public class CourseService {
         Course course = courseRepository
                 .findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
+
+        course.getClassBlockList().forEach(classBlock -> blockService.deleteClassBlock(classBlock.getId(), courseId));
+        course.getPersonList().forEach(n -> course.getPersonList().remove(n));
+        //todo
+
         courseRepository.delete(course);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }

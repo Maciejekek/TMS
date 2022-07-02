@@ -23,7 +23,7 @@ public class ClassBlock {
     @Column(name = "CLASS_BLOCK_NAME")
     private String name;
 
-    @OneToMany(orphanRemoval = true, cascade = CascadeType.REMOVE)
+    @OneToMany
     private List<Classes> classesList = new LinkedList<>();
 
 }

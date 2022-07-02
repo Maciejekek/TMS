@@ -2,9 +2,11 @@ package com.example.trainingmanagementsystem.service;
 
 import com.example.trainingmanagementsystem.Model.ClassBlock;
 import com.example.trainingmanagementsystem.Model.Classes;
+import com.example.trainingmanagementsystem.Model.Course;
 import com.example.trainingmanagementsystem.exceptions.ResourceNotFoundException;
 import com.example.trainingmanagementsystem.repository.ClassBlockRepository;
 import com.example.trainingmanagementsystem.repository.ClassesRepository;
+import com.example.trainingmanagementsystem.repository.CourseRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +19,8 @@ public class ClassBlockService {
 
     ClassBlockRepository classBlockRepository;
     ClassesRepository classesRepository;
+    ClassesService classesService;
+    CourseRepository courseRepository;
 
     public List<ClassBlock> findAll() {
         return classBlockRepository.findAll();
@@ -44,10 +48,19 @@ public class ClassBlockService {
         return ResponseEntity.ok(updateClassBlock);
     }
 
-    public ResponseEntity<HttpStatus> deleteClassBlock(Long id) {
+    public ResponseEntity<HttpStatus> deleteClassBlock(Long id, Long courseId) {
         ClassBlock classBlock = classBlockRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Class Block with id:" + id + "not exist"));
+
+        Course course = courseRepository
+                .findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Class Block with id:" + id + "not exist"));
+
+        course.getClassBlockList().remove(classBlock);
+        courseRepository.save(course);
+        classBlock.getClassesList().forEach(classes -> deleteClassesFromClassBlock(classBlock, classes));
+        deleteBlockFromCourse(course, classBlock);
 
         classBlockRepository.delete(classBlock);
         return new  ResponseEntity<>(HttpStatus.NO_CONTENT);
@@ -64,5 +77,15 @@ public class ClassBlockService {
         classBlock.getClassesList().add(classes);
         classBlockRepository.save(classBlock);
         return ResponseEntity.ok(classBlock);
+    }
+
+    public void deleteClassesFromClassBlock(ClassBlock block, Classes classes){
+        block.getClassesList().remove(classes);
+        classBlockRepository.save(block);
+    }
+
+    public void deleteBlockFromCourse(Course course, ClassBlock classBlock) {
+        course.getClassBlockList().remove(classBlock);
+        courseRepository.save(course);
     }
 }

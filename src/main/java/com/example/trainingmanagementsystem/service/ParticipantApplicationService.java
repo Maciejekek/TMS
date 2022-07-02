@@ -1,6 +1,7 @@
 package com.example.trainingmanagementsystem.service;
 
 import com.example.trainingmanagementsystem.Model.ParticipantApplication;
+import com.example.trainingmanagementsystem.dto.ParticipantApplicationRequest;
 import com.example.trainingmanagementsystem.exceptions.ResourceNotFoundException;
 import com.example.trainingmanagementsystem.repository.ParticipantApplicationRepository;
 import lombok.AllArgsConstructor;
@@ -17,10 +18,10 @@ public class ParticipantApplicationService {
     ParticipantApplicationRepository applicationRepository;
     CourseService courseService;
 
-    public ParticipantApplication createParticipantApplication(Long courseId, Long personId){
+    public ParticipantApplication createParticipantApplication(ParticipantApplicationRequest request){
         ParticipantApplication application = new ParticipantApplication();
-        application.setCourseId(courseId);
-        application.setPersonId(personId);
+        application.setCourseId(request.getCourseId());
+        application.setPersonId(request.getPersonId());
         return applicationRepository.save(application);
     }
 

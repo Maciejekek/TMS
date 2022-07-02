@@ -102,9 +102,9 @@ class ClassBlockControllerTest {
     void shouldDeleteClassBlockById() throws Exception {
 
         this.mockMvc
-                .perform(delete("/classBlocks?classBlockId=1"))
+                .perform(delete("/classBlocks/?classBlockId=1&courseId=1"))
                 .andDo(print())
-                .andExpect(status().isOk());
+                .andExpect(status().is2xxSuccessful());
 
         /* TODO - why?whyyyyyyyyyyyyy???
             log:
