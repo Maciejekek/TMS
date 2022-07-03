@@ -1,11 +1,13 @@
 package com.example.trainingmanagementsystem.controller;
 
+import com.example.trainingmanagementsystem.Model.Notification;
 import com.example.trainingmanagementsystem.Model.Person;
 import com.example.trainingmanagementsystem.Model.PersonAccountData;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,6 +15,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -24,6 +29,10 @@ class PersonControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
+
+    @Mock
+    private List<Notification> notificationList = new ArrayList<>();
+
 
     public static String asJsonString(final Object obj) {
         try {
@@ -125,7 +134,6 @@ class PersonControllerTest {
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.name").value("Jan"))
                 .andExpect(jsonPath("$.lastName").value("Kowalski"));
-
     }
 
     @Test

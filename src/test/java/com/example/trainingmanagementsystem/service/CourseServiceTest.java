@@ -1,12 +1,10 @@
 package com.example.trainingmanagementsystem.service;
 
-import com.example.trainingmanagementsystem.Model.ClassBlock;
-import com.example.trainingmanagementsystem.Model.Course;
-import com.example.trainingmanagementsystem.Model.Notification;
-import com.example.trainingmanagementsystem.Model.Person;
+import com.example.trainingmanagementsystem.Model.*;
 import com.example.trainingmanagementsystem.dto.ClassBlocksDTO;
 import com.example.trainingmanagementsystem.dto.CourseResponse;
 import com.example.trainingmanagementsystem.repository.CourseRepository;
+import com.example.trainingmanagementsystem.repository.PersonRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -32,6 +30,9 @@ class CourseServiceTest {
     @MockBean
     private CourseRepository courseRepository;
 
+    @Mock
+    private static List<Course> courseList = new ArrayList<>();
+
     @InjectMocks
     private CourseService courseService;
 
@@ -40,10 +41,16 @@ class CourseServiceTest {
 
     @Mock
     private static List<Person> personList = new ArrayList<>();
+    @Mock
+    private static List<PersonNotification> personNotificationList = new ArrayList<>();
+    private static final Person PERSON = new Person(1l, "name", "lastName", personNotificationList, courseList);
 
     @Mock
     private static List<Notification> notificationList = new ArrayList<>();
     private static final Course COURSE = new Course(1l, "name", classBlockList, personList, notificationList);
+    @MockBean
+    private PersonRepository personRepository;
+
     @Mock
     private static List<ClassBlocksDTO> classBlocksDTOS = new ArrayList<>();
 
@@ -71,7 +78,15 @@ class CourseServiceTest {
     }
 
     @Test
+    @DisplayName("Should get Course by Person")
     void getCourseByPerson() {
+        Mockito.when(courseRepository.findById(anyLong())).thenReturn(Optional.of(COURSE));
+
+        List<Course> result = courseService.getCourseByPerson(PERSON.getId());
+
+        assertThat(result).isEqualTo(courseList);
+
+
     }
 
     @Test

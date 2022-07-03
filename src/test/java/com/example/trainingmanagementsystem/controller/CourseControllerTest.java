@@ -154,7 +154,6 @@ class CourseControllerTest {
                 .andExpect(status().is2xxSuccessful());
     }
 
-    //TODO metoda w budowie
     @Test
     @DisplayName("Should delete course")
     void shouldDeleteCourse() throws Exception {
