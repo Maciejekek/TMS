@@ -95,6 +95,7 @@ public class TrainingManagementSystemApplication implements CommandLineRunner {
         classes2.setDate(LocalDate.of(2022,6,26));
         classesService.addClasses(classes2);
 
+
         ClassBlock classBlock1 = new ClassBlock();
         classBlock1.setName("Podstawy");
         classBlockService.createClassBlock(classBlock1);
@@ -106,6 +107,7 @@ public class TrainingManagementSystemApplication implements CommandLineRunner {
         classBlockService.addClassesInBlock(1L, 1L);
         classBlockService.addClassesInBlock(1L, 2L);
 
+
         CourseRequest courseRequest = new CourseRequest("Java");
         courseService.addCourse(courseRequest);
         courseService.addPersonInToCourse(1L, 1L);
@@ -114,6 +116,7 @@ public class TrainingManagementSystemApplication implements CommandLineRunner {
         courseService.addPersonInToCourse(1L, 4L);
         courseService.addBlockInToCourse(1L, 1L);
         courseService.addBlockInToCourse(1L, 2L);
+
 
     }
 }

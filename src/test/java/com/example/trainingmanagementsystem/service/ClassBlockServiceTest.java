@@ -1,9 +1,6 @@
 package com.example.trainingmanagementsystem.service;
 
-import com.example.trainingmanagementsystem.Model.ClassBlock;
-import com.example.trainingmanagementsystem.Model.Classes;
-import com.example.trainingmanagementsystem.Model.Course;
-import com.example.trainingmanagementsystem.dto.ClassBlocksDTO;
+import com.example.trainingmanagementsystem.Model.*;
 import com.example.trainingmanagementsystem.repository.ClassBlockRepository;
 import com.example.trainingmanagementsystem.repository.ClassesRepository;
 import com.example.trainingmanagementsystem.repository.CourseRepository;
@@ -11,6 +8,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -18,6 +16,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -29,9 +29,6 @@ import static org.mockito.ArgumentMatchers.anyLong;
 @ExtendWith(SpringExtension.class)
 class ClassBlockServiceTest {
 
-    private static final ClassBlock CLASS_BLOCK = new ClassBlock(1L, "name", null);
-
-    private static final ClassBlocksDTO CLASS_BLOCKS_DTO = new ClassBlocksDTO("name", null);
 
     @MockBean
     private ClassBlockRepository classBlockRepository;
@@ -44,6 +41,19 @@ class ClassBlockServiceTest {
 
     @InjectMocks
     private ClassBlockService classBlockService;
+
+    private static final Classes CLASSES = new Classes(1l, "topic", null);
+    @Mock
+    private static List<Classes> classesList = new ArrayList<>();
+    private static final ClassBlock CLASS_BLOCK = new ClassBlock(1L, "name", classesList);
+    @Mock
+    private static List<ClassBlock> classBlocks = new ArrayList<>();
+    @Mock
+    private static List<Person> personList = new ArrayList<>();
+    @Mock
+    private static List<Notification> notificationList = new ArrayList<>();
+    private static final Course COURSE = new Course(1L, "name", classBlocks, personList, notificationList);
+
 
     @Test
     @DisplayName("Should create class block")
@@ -82,9 +92,8 @@ class ClassBlockServiceTest {
     @DisplayName("Should delete class block")
     void shouldDeleteClassBlock() {
         Mockito.when(classBlockRepository.findById(anyLong())).thenReturn(Optional.of(CLASS_BLOCK));
-        ClassBlock classBlock = new ClassBlock(1L, "name", null);
-        Course course = new Course(1L, "name", null, null, null);
-        ResponseEntity<HttpStatus> result = classBlockService.deleteClassBlock(classBlock.getId(), course.getId());
+
+        ResponseEntity<HttpStatus> result = classBlockService.deleteClassBlock(CLASS_BLOCK.getId(), COURSE.getId());
 
         assertThat(result).isNotNull();
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
@@ -98,8 +107,7 @@ class ClassBlockServiceTest {
     @DisplayName("Should add classes in block")
     void shouldAddClassesInBlock() {
         Mockito.when(classBlockRepository.findById(anyLong())).thenReturn(Optional.of(CLASS_BLOCK));
-        Classes classes = new Classes(1L, "topic", null);
-        ResponseEntity<ClassBlock> result = classBlockService.addClassesInBlock(1L, classes.getId());
+        ResponseEntity<ClassBlock> result = classBlockService.addClassesInBlock(CLASS_BLOCK.getId(), CLASSES.getId());
 
         assertThat(result).isNotNull();
         assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
@@ -110,13 +118,24 @@ class ClassBlockServiceTest {
     @DisplayName("Should delete classes from class block")
     void deleteClassesFromClassBlock() {
         Mockito.when(classBlockRepository.findById(anyLong())).thenReturn(Optional.of(CLASS_BLOCK));
-        Classes classes = new Classes(1L, "topic", null);
 
-        classBlockService.deleteClassesFromClassBlock(CLASS_BLOCK, classes);
+        classBlockService.deleteClassesFromClassBlock(CLASS_BLOCK, CLASSES);
+        List<Classes> result = CLASS_BLOCK.getClassesList();
+
+        assertThat(result).isNotNull();
 
     }
 
     @Test
+    @DisplayName("Should delete block form course")
     void deleteBlockFromCourse() {
+        Mockito.when(classBlockRepository.findById(anyLong())).thenReturn(Optional.of(CLASS_BLOCK));
+
+        classBlockService.deleteBlockFromCourse(COURSE, CLASS_BLOCK);
+        List<ClassBlock> result = COURSE.getClassBlockList();
+
+        assertThat(result).isNotNull();
+
+
     }
 }
