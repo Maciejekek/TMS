@@ -29,13 +29,12 @@ class CourseControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", Matchers.greaterThan(1)))
-                .andExpect(jsonPath("$[0].id").exists())
                 .andExpect(jsonPath("$[0].name").exists());
     }
 
     @Test
     @DisplayName("Should add new course")
-    void ShouldAddNewCourse() throws Exception {
+    void shouldAddNewCourse() throws Exception {
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders.post("/course")
@@ -55,7 +54,7 @@ class CourseControllerTest {
     void shouldGetCourseByPersonById() throws Exception {
 
         this.mockMvc
-                .perform(MockMvcRequestBuilders.get("/course/courses?personId=1"))
+                .perform(MockMvcRequestBuilders.get("/course?personId=1"))
                 .andDo(print())
                 .andExpect(status().isOk());
 
@@ -76,8 +75,13 @@ class CourseControllerTest {
     void shouldGetCoursePersonList() throws Exception {
 
         this.mockMvc
-                .perform(MockMvcRequestBuilders.get("/course/personList?courseId=1")
+                .perform(MockMvcRequestBuilders.get("/course/personList")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "name" : "java"
+                                }
+                                """)
                 )
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -88,8 +92,13 @@ class CourseControllerTest {
     void shouldAddBlockInToCourse() throws Exception {
 
         this.mockMvc
-                .perform(MockMvcRequestBuilders.put("/course?courseId=1&blockId=1")
+                .perform(MockMvcRequestBuilders.post("/course?courseId=1&blockId=1")
                         .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                "personId" : "1L"
+                                }
+                                """)
                 )
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -100,7 +109,7 @@ class CourseControllerTest {
     void shouldAddPersonInToCourse() throws Exception {
 
         this.mockMvc
-                .perform(MockMvcRequestBuilders.put("/course/addPerson?courseId=1&personId=1")
+                .perform(MockMvcRequestBuilders.post("/course/addPerson?courseId=1&personId=1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
@@ -139,20 +148,21 @@ class CourseControllerTest {
     void deleteBlockFromCourse() throws Exception {
 
         this.mockMvc
-                .perform(MockMvcRequestBuilders.delete("/course/deleteBlock?courseId=1&blockId=1&")
+                .perform(MockMvcRequestBuilders.delete("/course/deleteBlock?courseId=1&blockId=1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
     }
 
-    //TODO repair - relations error
+    //TODO metoda w budowie
     @Test
     @DisplayName("Should delete course")
     void shouldDeleteCourse() throws Exception {
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders.delete("/course?courseId=1")
-                        .contentType(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                )
                 .andDo(print())
                 .andExpect(status().is2xxSuccessful());
     }

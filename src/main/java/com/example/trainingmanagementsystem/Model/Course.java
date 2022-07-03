@@ -30,6 +30,6 @@ public class Course {
     @JsonIgnore
     private List<Person> personList = new LinkedList<>();
 
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     private List<Notification> notificationsList = new LinkedList<>();
 }

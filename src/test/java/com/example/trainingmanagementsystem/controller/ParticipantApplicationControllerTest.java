@@ -1,5 +1,7 @@
 package com.example.trainingmanagementsystem.controller;
 
+import com.example.trainingmanagementsystem.dto.ParticipantApplicationRequest;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -9,6 +11,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -21,21 +24,27 @@ class ParticipantApplicationControllerTest {
     @Autowired
     private MockMvc mockMvc;
 
+    public static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     @Test
     @DisplayName("Should create participant application ")
     void shouldCreateParticipantApplication() throws Exception {
 
-        this.mockMvc
-                .perform(MockMvcRequestBuilders.post("/participantApplication")
+        mockMvc.perform(MockMvcRequestBuilders
+                        .post("/participantApplication")
+                        .content(asJsonString(new ParticipantApplicationRequest(1L, 1L)))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .content("""
-                                {
-                                "personId" : "1"
-                                "courseId" : "1"
-                                }
-                                """))
-                .andDo(print())
-                .andExpect(status().is2xxSuccessful());
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(MockMvcResultMatchers.jsonPath("$.personId").value(1L))
+                .andExpect(MockMvcResultMatchers.jsonPath("$.courseId").value(1L));
+
 
     }
 
@@ -48,9 +57,9 @@ class ParticipantApplicationControllerTest {
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(jsonPath("$.size()", Matchers.anything()))
-                .andExpect(jsonPath("$[0].id").doesNotExist())
-                .andExpect(jsonPath("$[0].personId").doesNotExist())
-                .andExpect(jsonPath("$[0].courseId").doesNotExist())
+                .andExpect(jsonPath("$[0].id").exists())
+                .andExpect(jsonPath("$[0].personId").exists())
+                .andExpect(jsonPath("$[0].courseId").exists())
                 .andExpect(status().is2xxSuccessful());
 
     }

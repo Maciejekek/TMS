@@ -20,6 +20,6 @@ public class PersonNotification {
 
     private Boolean isRead;
 
-    @OneToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Notification notification;
 }
