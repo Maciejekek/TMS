@@ -13,7 +13,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -149,12 +148,12 @@ public class CourseService {
     }
 
 
-    public ResponseEntity<Course> editCourse(Long courseId, Course course) {
+    public ResponseEntity<Course> editCourse(Long courseId, EditCourseName name) {
         Course updateCourse = courseRepository
                 .findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
 
-        updateCourse.setName(course.getName());
+        updateCourse.setName(name.getName());
 
         courseRepository.save(updateCourse);
 

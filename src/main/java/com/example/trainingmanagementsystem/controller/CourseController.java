@@ -42,7 +42,7 @@ public class CourseController {
     }
 
     @PutMapping("/course/")
-    public ResponseEntity<Course> addBlockInToCourse(@RequestParam("courseId") Long courseId, @RequestParam("blockId") Long blockId){
+    public ResponseEntity<Course> addBlockInToCourse(@RequestParam("courseId") Long courseId, @RequestParam("personId") Long blockId){
         return service.addBlockInToCourse(courseId, blockId);
     }
 
@@ -52,8 +52,8 @@ public class CourseController {
     }
 
     @PatchMapping("/course/edit")
-    public ResponseEntity<Course> editCourse(@RequestParam("courseId") Long id, @RequestBody Course course) {
-        return service.editCourse(id, course);
+    public ResponseEntity<Course> editCourse(@RequestParam("courseId") Long id, @RequestBody EditCourseName name) {
+        return service.editCourse(id, name);
     }
 
     @DeleteMapping("/course/deletePerson")
