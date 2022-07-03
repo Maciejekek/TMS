@@ -13,6 +13,8 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
+import java.util.Date;
+
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
@@ -62,7 +64,7 @@ class NotificationControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/notifications?courseId=1")
-                        .content(asJsonString(new Notification(1L, null, "className", "des")))
+                        .content(asJsonString(new Notification(1L, new Date(), "className", "des")))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated())
@@ -78,7 +80,7 @@ class NotificationControllerTest {
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders.put("/notifications/1")
-                        .content(asJsonString(new Notification(1L, null, "className", "des")))
+                        .content(asJsonString(new Notification(1L, new Date(), "className", "des")))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andDo(print())

@@ -14,9 +14,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.modelmapper.ModelMapper;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,16 +36,19 @@ class CourseServiceTest {
     private CourseService courseService;
 
     @Mock
-    private static List<ClassBlock> classBlockList;
+    private static List<ClassBlock> classBlockList = new ArrayList<>();
 
     @Mock
-    private static List<Person> personList;
+    private static List<Person> personList = new ArrayList<>();
 
     @Mock
-    private static List<Notification> notificationList;
+    private static List<Notification> notificationList = new ArrayList<>();
     private static final Course COURSE = new Course(1l, "name", classBlockList, personList, notificationList);
     @Mock
-    private static List<ClassBlocksDTO> classBlocksDTOS;
+    private static List<ClassBlocksDTO> classBlocksDTOS = new ArrayList<>();
+
+    @Mock
+    private ModelMapper modelMapper;
 
     @Test
     void convertClassBlock() {

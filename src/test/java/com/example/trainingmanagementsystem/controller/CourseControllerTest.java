@@ -109,7 +109,7 @@ class CourseControllerTest {
     void shouldAddPersonInToCourse() throws Exception {
 
         this.mockMvc
-                .perform(MockMvcRequestBuilders.post("/course/addPerson?courseId=10&personId=10")
+                .perform(MockMvcRequestBuilders.post("/course/addPerson?courseId=1&personId=1")
                         .contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andExpect(status().isOk());
