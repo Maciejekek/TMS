@@ -65,6 +65,7 @@ class CourseServiceTest {
 
         CourseResponse result = courseService.getCourseById(COURSE.getId());
 
+        assertThat(result).isNull();
         assertThat(result).isEqualTo(COURSE.getClassBlockList());
 
     }
