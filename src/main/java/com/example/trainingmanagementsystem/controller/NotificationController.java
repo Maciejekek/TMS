@@ -21,8 +21,8 @@ public class NotificationController {
     }
 
     @PostMapping("/notifications")
-    public Notification createNotification(@RequestBody Notification notification,@RequestParam("courseId") Long courseId) {
-        return notificationService.save(notification, courseId);
+    public void createNotification(@RequestBody Notification notification,@RequestParam("courseId") Long courseId) {
+        notificationService.save(notification, courseId);
     }
 
     @PutMapping("/notifications/{id}")

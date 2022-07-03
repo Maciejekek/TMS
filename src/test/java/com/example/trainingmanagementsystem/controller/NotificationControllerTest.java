@@ -64,9 +64,14 @@ class NotificationControllerTest {
 
         mockMvc.perform(MockMvcRequestBuilders
                         .post("/notifications?courseId=1")
-                        .content(asJsonString(new Notification(1L, new Date(), "className", "des")))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                        .content("""
+                            {
+                            date": "2022-07-08",
+                            "className": "Petle",
+                            "description": "nie bylo latwo"
+                            }
+                            """))
                 .andExpect(status().isCreated())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.className").exists())

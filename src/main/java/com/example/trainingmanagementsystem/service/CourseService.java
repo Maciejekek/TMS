@@ -5,6 +5,7 @@ import com.example.trainingmanagementsystem.dto.*;
 import com.example.trainingmanagementsystem.exceptions.ResourceNotFoundException;
 import com.example.trainingmanagementsystem.repository.ClassBlockRepository;
 import com.example.trainingmanagementsystem.repository.CourseRepository;
+import com.example.trainingmanagementsystem.repository.NotificationRepository;
 import com.example.trainingmanagementsystem.repository.PersonRepository;
 import lombok.AllArgsConstructor;
 import org.modelmapper.ModelMapper;
@@ -26,6 +27,8 @@ public class CourseService {
     ClassBlockRepository blockRepository;
     ClassBlockService blockService;
     ModelMapper modelMapper;
+
+    NotificationRepository notificationRepository;
 
     public List<CourseResponse> findAllCourses(){
         return courseRepository.findAll()
@@ -142,7 +145,6 @@ public class CourseService {
         optionalPerson.ifPresent(person -> course.getPersonList().remove(person));
         optionalPerson.ifPresent(person -> person.getCourseList().remove(course));
         optionalPerson.ifPresent(person -> personRepository.save(person));
-        courseRepository.save(course);
 
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -178,9 +180,12 @@ public class CourseService {
         personNotification.setNotification(notification);
         personNotification.setIsRead(false);
 
-        course.getPersonList().forEach(person -> person.getNotificationList().add(personNotification));
-
+        course.getPersonList().forEach(person -> {
+            person.getNotificationList().add(personNotification);
+            personRepository.save(person);
+        });
         courseRepository.save(course);
+
     }
 
     public CoursePersonListResponse getCoursePersonList(CoursePersonListRequest coursePersonListRequest) {

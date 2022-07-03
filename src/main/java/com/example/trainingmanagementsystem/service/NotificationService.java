@@ -21,9 +21,10 @@ public class NotificationService {
         return notificationRepository.findAll();
     }
 
-    public Notification save(Notification notification, Long id) {
+    public ResponseEntity<Notification> save(Notification notification, Long id) {
+        notificationRepository.save(notification);
         courseService.addNotification(notification, id);
-        return notificationRepository.save(notification);
+        return ResponseEntity.ok(notification);
     }
 
     public ResponseEntity<Notification> getById(Long id){

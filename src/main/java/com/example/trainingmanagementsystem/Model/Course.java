@@ -23,7 +23,7 @@ public class Course {
     @Column
     private String name;
 
-    @OneToMany
+    @OneToMany()
     private List<ClassBlock> classBlockList = new LinkedList<>();
 
     @ManyToMany(mappedBy = "courseList")
