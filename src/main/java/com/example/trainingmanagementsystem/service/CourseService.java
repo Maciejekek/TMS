@@ -14,6 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -46,6 +47,7 @@ public class CourseService {
         response.setClassBlocksList(blocksDTO);
         return response;
     }
+
     public ClassBlocksDTO convertClassBlock(ClassBlock block){
         List<ClassesDTO> classesDTO = block.getClassesList()
                 .stream()
@@ -55,6 +57,7 @@ public class CourseService {
         blocksDTO.setClassesList(classesDTO);
         return blocksDTO;
     }
+
     public ClassesDTO convertClasses(Classes classes){
         return modelMapper.map(classes , ClassesDTO.class);
     }
@@ -98,6 +101,19 @@ public class CourseService {
         courseRepository.save(updateCourse);
         personRepository.save(person);
         return ResponseEntity.ok(updateCourse);
+    }
+    public void applicationAddPersonInToCourse(Long courseId, Long PersonId) {
+        Course updateCourse = courseRepository
+                .findById(courseId)
+                .orElseThrow(() -> new ResourceNotFoundException("Course with id:" + courseId + "not exist"));
+        Person person = personRepository
+                .findById(PersonId)
+                .orElseThrow(() -> new ResourceNotFoundException("Person with id:" + PersonId + "not exist"));
+
+        updateCourse.getPersonList().add(person);
+        person.getCourseList().add(updateCourse);
+        courseRepository.save(updateCourse);
+        personRepository.save(person);
     }
 
     public ResponseEntity<HttpStatus> deleteCourse(Long courseId){
@@ -149,7 +165,6 @@ public class CourseService {
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 
-
     public ResponseEntity<Course> editCourse(Long courseId, EditCourseName name) {
         Course updateCourse = courseRepository
                 .findById(courseId)
@@ -200,7 +215,6 @@ public class CourseService {
         return new CoursePersonListResponse(listPersonDTO);
     }
 
-    //todo sort by data
     public CalendarResponse getPersonCalendar(Long personId) {
         var courseList = personRepository
                 .findById(personId)
@@ -209,6 +223,7 @@ public class CourseService {
         var classesList = findAllClassesFromCourse(courseList)
                 .stream()
                 .map(this::convertClasses)
+                .sorted(Comparator.comparing(ClassesDTO::getDate))
                 .toList();
         return new CalendarResponse(classesList);
     }

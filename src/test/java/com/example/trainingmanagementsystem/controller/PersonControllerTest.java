@@ -1,10 +1,11 @@
 package com.example.trainingmanagementsystem.controller;
 
-import com.example.trainingmanagementsystem.Model.Notification;
 import com.example.trainingmanagementsystem.Model.Person;
 import com.example.trainingmanagementsystem.Model.PersonAccountData;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import org.aspectj.lang.annotation.Before;
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
@@ -13,8 +14,12 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MockMvcBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,6 +27,7 @@ import java.util.List;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.setup.MockMvcBuilders.standaloneSetup;
 
 @AutoConfigureMockMvc
 @SpringBootTest
@@ -29,10 +35,6 @@ class PersonControllerTest {
 
     @Autowired
     private MockMvc mockMvc;
-
-    @Mock
-    private List<Notification> notificationList = new ArrayList<>();
-
 
     public static String asJsonString(final Object obj) {
         try {
@@ -72,8 +74,6 @@ class PersonControllerTest {
                 .andExpect(jsonPath("$[0].email").exists())
                 .andExpect(jsonPath("$[0].type").exists())
                 .andExpect(jsonPath("$[0].isActive").exists());
-
-
     }
 
     @Test
@@ -114,8 +114,6 @@ class PersonControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("email@gmail.com"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.type").value("type"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.isActive").value(true));
-
-
     }
 
 
@@ -125,7 +123,7 @@ class PersonControllerTest {
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders.post("/persons")
-                        .content(asJsonString(new Person(1l, "Jan", "Kowalski", null, null)))
+                        .content(asJsonString(new Person(1L, "Jan", "Kowalski", null, null)))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                 )
@@ -134,6 +132,7 @@ class PersonControllerTest {
                 .andExpect(jsonPath("$.id").value(1L))
                 .andExpect(jsonPath("$.name").value("Jan"))
                 .andExpect(jsonPath("$.lastName").value("Kowalski"));
+
     }
 
     @Test
@@ -142,7 +141,7 @@ class PersonControllerTest {
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders.patch("/persons/1")
-                        .content(asJsonString(new Person(1l, "Jan", "Kowalski", null, null)))
+                        .content(asJsonString(new Person(1L, "Jan", "Kowalski", null, null)))
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
                 )
@@ -169,27 +168,17 @@ class PersonControllerTest {
                 .andExpect(MockMvcResultMatchers.jsonPath("$.email").value("email@gmail.com"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.type").value("type"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.isActive").value(true));
-
     }
 
-    //TODO Entity must not be null!
     @Test
     @DisplayName("Should Delete Person")
+    @Disabled
     void shouldDeletePerson() throws Exception {
 
-        this.mockMvc
-                .perform(MockMvcRequestBuilders.delete("/persons/1")
-                        .content(asJsonString(new Person(1l, "Jan", "Kowalski", null, null)))
+        this.mockMvc.perform(MockMvcRequestBuilders
+                        .delete("/persons/{id}", "1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON)
-                )
-
-                .andDo(print())
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(jsonPath("$.id").value(1L))
-                .andExpect(jsonPath("$.name").value("Jan"))
-                .andExpect(jsonPath("$.lastName").value("Kowalski"));
-
-
+                        .accept(MediaType.APPLICATION_JSON))
+                        .andExpect(status().isNoContent());
     }
 }

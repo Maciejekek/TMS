@@ -86,9 +86,13 @@ public class PersonService {
                 .findById(accountId)
                 .orElseThrow(() -> new ResourceNotFoundException("Person not exist with id:" + accountId));
 
-        personRepository.delete(accountData.getPerson());
-        dataRepository.delete(accountData);
+        var person = accountData.getPerson();
 
+        person.getCourseList().clear();
+        person.getNotificationList().clear();
+        personRepository.save(person);
+        dataRepository.delete(accountData);
+        personRepository.delete(person);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
 }

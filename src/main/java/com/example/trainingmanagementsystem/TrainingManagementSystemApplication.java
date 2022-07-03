@@ -87,12 +87,12 @@ public class TrainingManagementSystemApplication implements CommandLineRunner {
 
         Classes classes1 = new Classes();
         classes1.setTopic("Typy danych");
-        classes1.setDate(LocalDate.of(2022,6,25));
+        classes1.setDate(LocalDate.of(2022, 6, 25));
         classesService.addClasses(classes1);
 
         Classes classes2 = new Classes();
         classes2.setTopic("Metody");
-        classes2.setDate(LocalDate.of(2022,6,26));
+        classes2.setDate(LocalDate.of(2022, 6, 26));
         classesService.addClasses(classes2);
 
 

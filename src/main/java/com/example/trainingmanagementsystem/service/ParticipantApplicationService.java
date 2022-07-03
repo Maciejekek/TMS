@@ -40,7 +40,7 @@ public class ParticipantApplicationService {
                 .findById(applicationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Application with id:" + applicationId + "not found"));
 
-        courseService.addPersonInToCourse(application.getCourseId(), application.getPersonId());
+        courseService.applicationAddPersonInToCourse(application.getCourseId(), application.getPersonId());
 
         applicationRepository.delete(application);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);

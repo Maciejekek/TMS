@@ -44,8 +44,6 @@ class ParticipantApplicationControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.personId").value(1L))
                 .andExpect(MockMvcResultMatchers.jsonPath("$.courseId").value(1L));
-
-
     }
 
     @Test
@@ -82,7 +80,6 @@ class ParticipantApplicationControllerTest {
         this.mockMvc
                 .perform(MockMvcRequestBuilders.delete("/participantApplication/accept?applicationId=1")
                         .contentType(MediaType.APPLICATION_JSON))
-                .andDo(print())
                 .andExpect(status().is2xxSuccessful());
     }
 

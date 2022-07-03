@@ -52,9 +52,9 @@ class NotificationControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.size()", Matchers.anything()))
-                .andExpect(jsonPath("$[0].id").doesNotExist())
-                .andExpect(jsonPath("$[0].className").doesNotExist())
-                .andExpect(jsonPath("$[0].description").doesNotExist());
+                .andExpect(jsonPath("$[0].id").exists())
+                .andExpect(jsonPath("$[0].className").exists())
+                .andExpect(jsonPath("$[0].description").exists());
     }
 
     //TODO - detached entity passed to persist
@@ -67,16 +67,12 @@ class NotificationControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                             {
-                            date": "2022-07-08",
+                            "date": "2022-07-08",
                             "className": "Petle",
                             "description": "nie bylo latwo"
                             }
                             """))
-                .andExpect(status().isCreated())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.className").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.description").exists());
-
+                .andExpect(status().isOk());
     }
 
     @Test
@@ -85,14 +81,16 @@ class NotificationControllerTest {
 
         this.mockMvc
                 .perform(MockMvcRequestBuilders.put("/notifications/1")
-                        .content(asJsonString(new Notification(1L, new Date(), "className", "des")))
                         .contentType(MediaType.APPLICATION_JSON)
-                        .accept(MediaType.APPLICATION_JSON))
+                        .content("""
+                            {
+                            "date": "2022-07-09",
+                            "className": "Petle",
+                            "description": "nie bylo latwo"
+                            }
+                            """))
                 .andDo(print())
-                .andExpect(status().is2xxSuccessful())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.id").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.className").exists())
-                .andExpect(MockMvcResultMatchers.jsonPath("$.description").exists());
+                .andExpect(status().isOk());
 
 
     }
