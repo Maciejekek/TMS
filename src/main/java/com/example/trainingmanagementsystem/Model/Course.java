@@ -27,6 +27,7 @@ public class Course {
     private List<ClassBlock> classBlockList = new LinkedList<>();
 
     @ManyToMany(mappedBy = "courseList")
+    @JsonIgnore
     private List<Person> personList = new LinkedList<>();
 
     @OneToMany(cascade = CascadeType.ALL)

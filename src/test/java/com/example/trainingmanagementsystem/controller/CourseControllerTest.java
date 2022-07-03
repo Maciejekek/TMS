@@ -41,8 +41,8 @@ class CourseControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                 "name" : "java"                             
-                                }                  
+                                 "name" : "java"
+                                }
                                 """)
                 )
                 .andDo(print())
@@ -124,7 +124,7 @@ class CourseControllerTest {
                         .contentType(MediaType.APPLICATION_JSON)
                         .content("""
                                 {
-                                "name" : "editCourse"
+                                "name" : "C"
                                 }
                                 """)
                 )
