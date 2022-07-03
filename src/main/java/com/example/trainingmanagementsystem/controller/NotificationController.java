@@ -27,11 +27,16 @@ public class NotificationController {
 
     @PutMapping("/notifications/{id}")
     public ResponseEntity<Notification> updateNotification(@PathVariable("id") Long id, @RequestBody Notification notification) {
-        return notificationService.update(id, notification);
+        var editNotification = notificationService.update(id, notification);
+        return ResponseEntity.ok(editNotification);
     }
 
     @DeleteMapping("/notifications/{id}")
     public ResponseEntity<HttpStatus> deleteNotification(@PathVariable("id") Long id) {
-        return notificationService.delete(id);
+        String response = notificationService.delete(id);
+        return switch (response) {
+            case "SUCCESS" -> new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            default -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        };
     }
 }

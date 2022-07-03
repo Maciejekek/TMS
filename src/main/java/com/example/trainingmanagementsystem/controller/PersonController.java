@@ -29,12 +29,14 @@ public class PersonController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Person> getPersonById(@PathVariable Long id) {
-        return personService.findById(id);
+        var person = personService.findById(id);
+        return ResponseEntity.ok(person);
     }
 
     @GetMapping("/account/{id}")
     public ResponseEntity<PersonAccountData> getPersonAccountDataById(@PathVariable Long id) {
-        return personService.findPersonDataById(id);
+        var data =  personService.findPersonDataById(id);
+        return ResponseEntity.ok(data);
     }
 
     @PostMapping("/account")
@@ -49,17 +51,23 @@ public class PersonController {
 
     @PatchMapping("/{id}")
     public ResponseEntity<Person> editPerson(@PathVariable Long id, @RequestBody Person person) {
-        return personService.editPerson(id, person);
+        var editPerson = personService.editPerson(id, person);
+        return ResponseEntity.ok(editPerson);
     }
 
     @PatchMapping("/account/{id}")
     public ResponseEntity<PersonAccountData> editPersonAccountData(@PathVariable Long id, @RequestBody PersonAccountData personAccountData) {
-        return personService.editPersonAccountData(id, personAccountData);
+        var editData = personService.editPersonAccountData(id, personAccountData);
+        return ResponseEntity.ok(editData);
     }
 
     @DeleteMapping("/{accountId}")
     public ResponseEntity<HttpStatus> deletePerson(@PathVariable Long accountId) {
-        return personService.deletePerson(accountId);
+        String response = personService.deletePerson(accountId);
+        return switch (response) {
+            case "SUCCESS" -> new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            default -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        };
     }
 
 }

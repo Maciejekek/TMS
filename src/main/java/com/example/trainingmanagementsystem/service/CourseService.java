@@ -76,7 +76,7 @@ public class CourseService {
                 .getCourseList();
     }
 
-    public ResponseEntity<Course> addBlockInToCourse(Long courseId, Long blockId){
+    public Course addBlockInToCourse(Long courseId, Long blockId){
         Course updateCourse = courseRepository
                 .findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
@@ -85,10 +85,10 @@ public class CourseService {
                 .orElseThrow(() -> new ResourceNotFoundException("Class Block with id:"+ blockId + "not exist"));
         updateCourse.getClassBlockList().add(classBlock);
         courseRepository.save(updateCourse);
-        return ResponseEntity.ok(updateCourse);
+        return updateCourse;
     }
 
-    public ResponseEntity<Course> addPersonInToCourse(Long courseId, Long PersonId){
+    public Course addPersonInToCourse(Long courseId, Long PersonId){
         Course updateCourse = courseRepository
                 .findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
@@ -100,7 +100,7 @@ public class CourseService {
         person.getCourseList().add(updateCourse);
         courseRepository.save(updateCourse);
         personRepository.save(person);
-        return ResponseEntity.ok(updateCourse);
+        return updateCourse;
     }
     public void applicationAddPersonInToCourse(Long courseId, Long PersonId) {
         Course updateCourse = courseRepository
@@ -116,7 +116,7 @@ public class CourseService {
         personRepository.save(person);
     }
 
-    public ResponseEntity<HttpStatus> deleteCourse(Long courseId){
+    public String deleteCourse(Long courseId){
         Course course = courseRepository
                 .findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
@@ -128,10 +128,10 @@ public class CourseService {
         });
         course.getPersonList().clear();
         courseRepository.delete(course);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return "SUCCESS";
     }
 
-    public ResponseEntity<HttpStatus> deleteBlockFromCourse(Long courseId, Long blockId){
+    public String deleteBlockFromCourse(Long courseId, Long blockId){
         Course course = courseRepository
                 .findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
@@ -144,11 +144,10 @@ public class CourseService {
         optionalClassBlock.ifPresent(classBlock -> course.getClassBlockList().remove(classBlock));
 
         courseRepository.save(course);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return "SUCCESS";
     }
 
-    public ResponseEntity<HttpStatus> deletePersonFromCourse(Long courseId, Long personId){
+    public String deletePersonFromCourse(Long courseId, Long personId){
         Course course = courseRepository
                 .findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
@@ -161,11 +160,10 @@ public class CourseService {
         optionalPerson.ifPresent(person -> course.getPersonList().remove(person));
         optionalPerson.ifPresent(person -> person.getCourseList().remove(course));
         optionalPerson.ifPresent(person -> personRepository.save(person));
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return "SUCCESS";
     }
 
-    public ResponseEntity<Course> editCourse(Long courseId, EditCourseName name) {
+    public Course editCourse(Long courseId, EditCourseName name) {
         Course updateCourse = courseRepository
                 .findById(courseId)
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
@@ -174,7 +172,7 @@ public class CourseService {
 
         courseRepository.save(updateCourse);
 
-        return ResponseEntity.ok(updateCourse);
+        return updateCourse;
     }
 
     public Course addCourse(CourseRequest courseRequest) {

@@ -28,25 +28,21 @@ public class ClassesService {
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Classes not exist with id: " + id));
     }
-
     public Classes addClasses(Classes classes) {
         return classesRepository.save(classes);
     }
 
-    public ResponseEntity<Classes> editClasses(Long id, Classes classes) {
+    public Classes editClasses(Long id, Classes classes) {
         Classes updateClasses = classesRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Classes not exist with id: " + id));
-
         updateClasses.setTopic(classes.getTopic());
         updateClasses.setDate(classes.getDate());
-
         classesRepository.save(updateClasses);
-
-        return ResponseEntity.ok(updateClasses);
+        return updateClasses;
     }
 
-    public ResponseEntity<HttpStatus> delete(Long id, Long blockId) {
+    public String delete(Long id, Long blockId) {
         Classes deleteClasses = classesRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Classes not exist with id: " + id));
@@ -59,7 +55,6 @@ public class ClassesService {
         blockRepository.save(classBlock);
 
         classesRepository.delete(deleteClasses);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return "SUCCESS";
     }
 }

@@ -33,11 +33,19 @@ public class ParticipantApplicationController {
 
     @DeleteMapping("/participantApplication/accept")
     public ResponseEntity<HttpStatus> acceptParticipantApplication(@RequestParam("applicationId")Long applicationId){
-        return applicationService.acceptParticipantApplication(applicationId);
+        String response = applicationService.acceptParticipantApplication(applicationId);
+        return switch (response) {
+            case "SUCCESS" -> new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            default -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        };
     }
 
     @DeleteMapping("/participantApplication/decline")
     public ResponseEntity<HttpStatus> declineParticipantApplication(@RequestParam("applicationId")Long applicationId){
-        return applicationService.declineParticipantApplication(applicationId);
+        String response = applicationService.declineParticipantApplication(applicationId);
+        return switch (response) {
+            case "SUCCESS" -> new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            default -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        };
     }
 }

@@ -81,30 +81,26 @@ class ClassBlockServiceTest {
 
     @Test
     @DisplayName("Should edit Class Block")
+
     void shouldEditClassBlock() {
         Mockito.when(classBlockRepository.findById(anyLong())).thenReturn(Optional.of(CLASS_BLOCK));
 
-        ResponseEntity<ClassBlock> result = classBlockService.editClassBlock(1L, CLASS_BLOCK);
-
+        ClassBlock result = classBlockService.editClassBlock(1L, CLASS_BLOCK);
 
         assertThat(result).isNotNull();
-        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
     }
 
     //TODO - repair test
-    @Disabled
     @Test
     @DisplayName("Should delete class block")
+    @Disabled
     void shouldDeleteClassBlock() {
         Mockito.when(classBlockRepository.findById(anyLong())).thenReturn(Optional.of(CLASS_BLOCK));
 
-        ResponseEntity<HttpStatus> result = classBlockService.deleteClassBlock(CLASS_BLOCK.getId(), COURSE.getId());
+        String response = classBlockService.deleteClassBlock(CLASS_BLOCK.getId(), COURSE.getId());
 
-        assertThat(result).isNotNull();
-        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.NO_CONTENT);
-        assertThat(result.getBody()).isNull();
-
-
+        assertThat(response).isNotNull();
+        assertThat(response.equals("SUCCESS"));
     }
 
     //TODO - repair test
@@ -113,11 +109,8 @@ class ClassBlockServiceTest {
     @DisplayName("Should add classes in block")
     void shouldAddClassesInBlock() {
         Mockito.when(classBlockRepository.findById(anyLong())).thenReturn(Optional.of(CLASS_BLOCK));
-        ResponseEntity<ClassBlock> result = classBlockService.addClassesInBlock(CLASS_BLOCK.getId(), CLASSES.getId());
-
+        ClassBlock result = classBlockService.addClassesInBlock(CLASS_BLOCK.getId(), CLASSES.getId());
         assertThat(result).isNotNull();
-        assertThat(result.getStatusCode()).isEqualTo(HttpStatus.OK);
-
     }
 
     @Test

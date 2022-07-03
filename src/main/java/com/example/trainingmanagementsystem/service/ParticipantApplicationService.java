@@ -35,22 +35,20 @@ public class ParticipantApplicationService {
                 .orElseThrow(() -> new ResourceNotFoundException("Application with id:" + id + "not found"));
     }
 
-    public ResponseEntity<HttpStatus> acceptParticipantApplication(Long applicationId) {
+    public String acceptParticipantApplication(Long applicationId) {
         ParticipantApplication application = applicationRepository
                 .findById(applicationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Application with id:" + applicationId + "not found"));
-
         courseService.applicationAddPersonInToCourse(application.getCourseId(), application.getPersonId());
-
         applicationRepository.delete(application);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return "SUCCESS";
     }
 
-    public ResponseEntity<HttpStatus> declineParticipantApplication(Long applicationId) {
+    public String declineParticipantApplication(Long applicationId) {
         ParticipantApplication application = applicationRepository
                 .findById(applicationId)
                 .orElseThrow(() -> new ResourceNotFoundException("Application with id:" + applicationId + "not found"));
         applicationRepository.delete(application);
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return "SUCCESS";
     }
 }

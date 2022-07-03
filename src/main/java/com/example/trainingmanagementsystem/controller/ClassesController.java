@@ -33,12 +33,17 @@ public class ClassesController {
 
     @PatchMapping
     public ResponseEntity<Classes> editClasses(@RequestParam("classesId") Long id, @RequestBody Classes classes) {
-        return classesService.editClasses(id, classes);
+        var editClasses = classesService.editClasses(id, classes);
+        return ResponseEntity.ok(editClasses);
     }
 
     @DeleteMapping
     public ResponseEntity<HttpStatus> deleteClasses(@RequestParam("classesId") Long id, @RequestParam("blockId") Long blockId) {
-        return classesService.delete(id, blockId);
+        String response = classesService.delete(id, blockId);
+        return switch (response) {
+            case "SUCCESS" -> new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            default -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        };
     }
 
 }

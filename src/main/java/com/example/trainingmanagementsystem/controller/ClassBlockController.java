@@ -32,16 +32,23 @@ public class ClassBlockController {
 
     @PatchMapping
     public ResponseEntity<ClassBlock> editClassBlock(@RequestParam("classBlockId") Long id, @RequestBody ClassBlock classBlock) {
-        return classBlockService.editClassBlock(id, classBlock);
+        var editClassBlock = classBlockService.editClassBlock(id, classBlock);
+        return ResponseEntity.ok(editClassBlock);
     }
 
     @DeleteMapping
     public ResponseEntity<HttpStatus> deleteClassBlock(@RequestParam("classBlockId") Long id,@RequestParam("courseId")Long courseId) {
-        return classBlockService.deleteClassBlock(id, courseId);
+        String response = classBlockService.deleteClassBlock(id, courseId);
+        return switch (response) {
+            case "SUCCESS" -> new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            default -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        };
+
     }
 
     @PutMapping
     public ResponseEntity<ClassBlock> addClassInToClassBlock(@RequestParam("classBlockId") Long id, @RequestParam("classesId") Long classesId){
-        return classBlockService.addClassesInBlock(id, classesId);
+        var classBlock = classBlockService.addClassesInBlock(id, classesId);
+        return ResponseEntity.ok(classBlock);
     }
 }

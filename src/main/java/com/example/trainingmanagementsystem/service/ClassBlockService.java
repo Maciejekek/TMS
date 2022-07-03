@@ -8,8 +8,6 @@ import com.example.trainingmanagementsystem.repository.ClassBlockRepository;
 import com.example.trainingmanagementsystem.repository.ClassesRepository;
 import com.example.trainingmanagementsystem.repository.CourseRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import java.util.List;
 
@@ -35,7 +33,7 @@ public class ClassBlockService {
                 .orElseThrow(() -> new ResourceNotFoundException("Class Block with id:" + id + " not exist"));
     }
 
-    public ResponseEntity<ClassBlock> editClassBlock(Long id, ClassBlock classBlock) {
+    public ClassBlock editClassBlock(Long id, ClassBlock classBlock) {
         var updateClassBlock = classBlockRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Class Block with id:" + id + " not exist"));
@@ -44,10 +42,10 @@ public class ClassBlockService {
 
         classBlockRepository.save(updateClassBlock);
 
-        return ResponseEntity.ok(updateClassBlock);
+        return (updateClassBlock);
     }
 
-    public ResponseEntity<HttpStatus> deleteClassBlock(Long id, Long courseId) {
+    public String deleteClassBlock(Long id, Long courseId) {
         ClassBlock classBlock = classBlockRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Class Block with id:" + id + "not exist"));
@@ -62,10 +60,10 @@ public class ClassBlockService {
         deleteBlockFromCourse(course, classBlock);
 
         classBlockRepository.delete(classBlock);
-        return new  ResponseEntity<>(HttpStatus.NO_CONTENT);
+        return "SUCCESS";
     }
 
-    public ResponseEntity<ClassBlock> addClassesInBlock(Long id, Long classesId){
+    public ClassBlock addClassesInBlock(Long id, Long classesId){
         ClassBlock classBlock = classBlockRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Class Block with id:" + id + "not exist"));
@@ -75,7 +73,7 @@ public class ClassBlockService {
 
         classBlock.getClassesList().add(classes);
         classBlockRepository.save(classBlock);
-        return ResponseEntity.ok(classBlock);
+        return classBlock;
     }
 
     public void deleteClassesFromClassBlock(ClassBlock block, Classes classes){

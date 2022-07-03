@@ -43,32 +43,47 @@ public class CourseController {
 
     @PutMapping("/course/")
     public ResponseEntity<Course> addBlockInToCourse(@RequestParam("courseId") Long courseId, @RequestParam("personId") Long blockId){
-        return service.addBlockInToCourse(courseId, blockId);
+        var course = service.addBlockInToCourse(courseId, blockId);
+        return ResponseEntity.ok(course);
     }
 
     @PostMapping("/course/addPerson")
     public ResponseEntity<Course> addPersonInToCourse(@RequestParam("courseId") Long id, @RequestParam("personId") Long personId) {
-        return service.addPersonInToCourse(id, personId);
+        var course = service.addPersonInToCourse(id, personId);
+        return ResponseEntity.ok(course);
     }
 
     @PatchMapping("/course/edit")
     public ResponseEntity<Course> editCourse(@RequestParam("courseId") Long id, @RequestBody EditCourseName name) {
-        return service.editCourse(id, name);
+        var course = service.editCourse(id, name);
+        return ResponseEntity.ok(course);
     }
 
     @DeleteMapping("/course/deletePerson")
     public ResponseEntity<HttpStatus> deletePersonFromCourse(@RequestParam("courseId") Long id, @RequestParam("personId") Long personId) {
-        return service.deletePersonFromCourse(id, personId);
+        String response = service.deletePersonFromCourse(id, personId);
+        return switch (response) {
+            case "SUCCESS" -> new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            default -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        };
     }
 
     @DeleteMapping("/course/deleteBlock")
     public ResponseEntity<HttpStatus> deleteBlockFromCourse(@RequestParam("courseId") Long id, @RequestParam("blockId") Long blockId) {
-        return service.deleteBlockFromCourse(id, blockId);
+        String response = service.deleteBlockFromCourse(id, blockId);
+        return switch (response) {
+            case "SUCCESS" -> new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            default -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        };
     }
 
     @DeleteMapping("/course")
     public ResponseEntity<HttpStatus> deleteCourse(@RequestParam("courseId") Long id) {
-        return service.deleteCourse(id);
+        String response = service.deleteCourse(id);
+        return switch (response) {
+            case "SUCCESS" -> new ResponseEntity<>(HttpStatus.NO_CONTENT);
+            default -> new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+        };
     }
 
     @GetMapping("/calendar")

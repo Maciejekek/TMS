@@ -4,8 +4,6 @@ import com.example.trainingmanagementsystem.Model.Notification;
 import com.example.trainingmanagementsystem.exceptions.ResourceNotFoundException;
 import com.example.trainingmanagementsystem.repository.NotificationRepository;
 import lombok.AllArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,40 +19,34 @@ public class NotificationService {
         return notificationRepository.findAll();
     }
 
-    public ResponseEntity<Notification> save(Notification notification, Long id) {
+    public Notification save(Notification notification, Long id) {
         notificationRepository.save(notification);
         courseService.addNotification(notification, id);
-        return ResponseEntity.ok(notification);
+        return notification;
     }
 
-    public ResponseEntity<Notification> getById(Long id){
-        return ResponseEntity.ok(notificationRepository
+    public Notification getById(Long id){
+        return notificationRepository
                 .findById(id)
-                .orElseThrow(() -> new ResourceNotFoundException("Notification with id:" + id + "not exist")));
+                .orElseThrow(() -> new ResourceNotFoundException("Notification with id:" + id + "not exist"));
     }
 
-    public ResponseEntity<Notification> update(Long id, Notification notification) {
+    public Notification update(Long id, Notification notification) {
        Notification updateNotification = notificationRepository
                .findById(id)
                .orElseThrow(() -> new ResourceNotFoundException("Notification with id:" + id + "not exist"));
-
        updateNotification.setDate(notification.getDate());
        updateNotification.setClassName(notification.getClassName());
        updateNotification.setDescription(notification.getDescription());
-
        notificationRepository.save(updateNotification);
-
-       return ResponseEntity.ok(updateNotification);
+       return updateNotification;
     }
 
-    public ResponseEntity<HttpStatus> delete(Long id){
+    public String delete(Long id){
         Notification notification = notificationRepository
                 .findById(id)
                 .orElseThrow(() -> new ResourceNotFoundException("Notification with id:" + id + "not exist"));
-
         notificationRepository.delete(notification);
-
-        return new ResponseEntity<>(HttpStatus.NO_CONTENT);
-
+        return "SUCCESS";
     }
 }
