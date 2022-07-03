@@ -104,8 +104,11 @@ public class CourseService {
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
 
         course.getClassBlockList().forEach(classBlock -> blockService.deleteClassBlock(classBlock.getId(), courseId));
-        course.getPersonList().forEach(n -> course.getPersonList().remove(n));
-
+        course.getPersonList().forEach(person -> {
+            person.getCourseList().remove(course);
+            personRepository.save(person);
+        });
+        course.getPersonList().clear();
         courseRepository.delete(course);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
