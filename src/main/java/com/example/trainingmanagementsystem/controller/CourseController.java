@@ -1,10 +1,7 @@
 package com.example.trainingmanagementsystem.controller;
 
 import com.example.trainingmanagementsystem.Model.Course;
-import com.example.trainingmanagementsystem.dto.CoursePersonListRequest;
-import com.example.trainingmanagementsystem.dto.CoursePersonListResponse;
-import com.example.trainingmanagementsystem.dto.CourseRequest;
-import com.example.trainingmanagementsystem.dto.CourseResponse;
+import com.example.trainingmanagementsystem.dto.*;
 import com.example.trainingmanagementsystem.service.CourseService;
 import lombok.AllArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -72,6 +69,11 @@ public class CourseController {
     @DeleteMapping("/course")
     public ResponseEntity<HttpStatus> deleteCourse(@RequestParam("courseId") Long id) {
         return service.deleteCourse(id);
+    }
+
+    @GetMapping("/calendar")
+    public CalendarResponse getPersonCalendar(@RequestParam("personId")Long personId){
+        return service.getPersonCalendar(personId);
     }
 
 }

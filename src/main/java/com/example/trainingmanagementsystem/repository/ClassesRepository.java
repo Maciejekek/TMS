@@ -9,6 +9,4 @@ import java.util.List;
 
 @Repository
 public interface ClassesRepository extends JpaRepository<Classes, Long> {
-
-    List<Classes> findByDateAfter(LocalDateTime time);
 }

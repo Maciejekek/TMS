@@ -12,6 +12,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Collection;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -102,9 +104,11 @@ public class CourseService {
                 .orElseThrow(() -> new ResourceNotFoundException("Course with id:"+ courseId + "not exist"));
 
         course.getClassBlockList().forEach(classBlock -> blockService.deleteClassBlock(classBlock.getId(), courseId));
-        course.getPersonList().forEach(n -> course.getPersonList().remove(n));
-        //todo
-
+        course.getPersonList().forEach(person -> {
+            person.getCourseList().remove(course);
+            personRepository.save(person);
+        });
+        course.getPersonList().clear();
         courseRepository.delete(course);
         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
     }
@@ -190,5 +194,30 @@ public class CourseService {
             listPersonDTO.add(personDTO);
         }
         return new CoursePersonListResponse(listPersonDTO);
+    }
+
+    //todo sort by data
+    public CalendarResponse getPersonCalendar(Long personId) {
+        var courseList = personRepository
+                .findById(personId)
+                .orElseThrow(() -> new ResourceNotFoundException("Person with id:" + personId + "not exist"))
+                .getCourseList();
+        var classesList = findAllClassesFromCourse(courseList)
+                .stream()
+                .map(this::convertClasses)
+                .toList();
+        return new CalendarResponse(classesList);
+    }
+
+    private List<Classes> findAllClassesFromCourse(List<Course> courseList) {
+        return courseList
+                .stream()
+                .map(Course::getClassBlockList)
+                .flatMap(Collection::stream)
+                .toList()
+                .stream()
+                .map(ClassBlock::getClassesList)
+                .flatMap(Collection::stream)
+                .toList();
     }
 }
