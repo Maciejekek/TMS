@@ -1,13 +1,27 @@
 package com.example.trainingmanagementsystem.service;
 
+import com.example.trainingmanagementsystem.Model.ClassBlock;
+import com.example.trainingmanagementsystem.Model.Course;
+import com.example.trainingmanagementsystem.Model.Notification;
+import com.example.trainingmanagementsystem.Model.Person;
+import com.example.trainingmanagementsystem.dto.ClassBlocksDTO;
+import com.example.trainingmanagementsystem.dto.CourseResponse;
 import com.example.trainingmanagementsystem.repository.CourseRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.anyLong;
 
 @ExtendWith(MockitoExtension.class)
 @ExtendWith(SpringExtension.class)
@@ -19,10 +33,20 @@ class CourseServiceTest {
     @InjectMocks
     private CourseService courseService;
 
-    @Test
-    @DisplayName("Should convert Class Block")
-    void convertClassBlock() {
+    @Mock
+    private static List<ClassBlock> classBlockList;
 
+    @Mock
+    private static List<Person> personList;
+
+    @Mock
+    private static List<Notification> notificationList;
+    private static final Course COURSE = new Course(1l, "name", classBlockList, personList, notificationList);
+    @Mock
+    private static List<ClassBlocksDTO> classBlocksDTOS;
+
+    @Test
+    void convertClassBlock() {
     }
 
     @Test
@@ -30,7 +54,14 @@ class CourseServiceTest {
     }
 
     @Test
-    void getCourseById() {
+    @DisplayName("Should get course By Id")
+    void shouldGetCourseById() {
+        Mockito.when(courseRepository.findById(anyLong())).thenReturn(Optional.of(COURSE));
+
+        CourseResponse result = courseService.getCourseById(COURSE.getId());
+
+        assertThat(result).isEqualTo(COURSE.getClassBlockList());
+
     }
 
     @Test
